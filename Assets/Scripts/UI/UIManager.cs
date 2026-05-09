@@ -1,16 +1,16 @@
 using UnityEngine;
+using UnityEngine.UI; // Text 사용 시 필요
 
 public class UIManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    // [예린] 점수 UI 업데이트를 위한 변수와 함수 추가
+    public Text scoreText;
 
-    // Update is called once per frame
-    void Update()
+    public void UpdateScoreDisplay(int score)
     {
-        
+        if (scoreText != null)
+        {
+            scoreText.text = "Score: " + score.ToString();
+        }
     }
 }
