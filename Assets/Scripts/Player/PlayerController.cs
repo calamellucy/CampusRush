@@ -24,10 +24,16 @@ public class PlayerController : MonoBehaviour
     private Vector2 originalColliderSize;
     private Vector2 originalColliderOffset;
 
+    // 애니메이션 제어를 위한 변수 - CWS
+    private Animator animator;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         playerCollider = GetComponent<CapsuleCollider2D>();
+        
+        // Animator 컴포넌트 가져오기 - CWS
+        animator = GetComponent<Animator>();
 
         // 초기 콜라이더 값 저장 (나중에 복구용) - CWS
         originalColliderSize = playerCollider.size;
@@ -75,6 +81,8 @@ public class PlayerController : MonoBehaviour
     {
         if (value.isPressed)
         {
+            if (!isGrounded)
+                return; // 공중에서는 숙이지 않도록 방지 - CWS
             StartCrouch();
         }
         else
@@ -85,6 +93,9 @@ public class PlayerController : MonoBehaviour
 
     private void StartCrouch()
     {
+        // 숙이기 애니메이션 활성화 (Player_Crouch로 전환) - CWS
+        animator.SetBool("IsCrouching", true);
+
         // 높이는 줄이고, 아래쪽으로 오프셋을 이동시켜 발 위치 고정 - CWS
         float newHeight = originalColliderSize.y * crouchSizeMultiplier;
         playerCollider.size = new Vector2(originalColliderSize.x, newHeight);
@@ -95,6 +106,9 @@ public class PlayerController : MonoBehaviour
 
     private void StopCrouch()
     {
+        // 숙이기 애니메이션 비활성화 (다시 Player_Run으로 복귀) - CWS
+        animator.SetBool("IsCrouching", false);
+
         // 원래 크기로 콜라이더 복구 - CWS
         playerCollider.size = originalColliderSize;
         playerCollider.offset = originalColliderOffset;
