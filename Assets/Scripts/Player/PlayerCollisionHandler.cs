@@ -10,6 +10,7 @@ public class PlayerCollisionHandler : MonoBehaviour
             Debug.Log("Obstacle 충돌");
 
             // 게임 오버
+            GameManager.Instance.GameOver();
         }
     }
 }
