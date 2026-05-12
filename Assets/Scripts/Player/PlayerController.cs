@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
 
     // 내부 컴포넌트 및 상태 변수 - CWS
     private Rigidbody2D rb;
-    private CapsuleCollider2D playerCollider;
+    private BoxCollider2D playerCollider;
     private bool isGrounded;
 
     private Vector2 originalColliderSize;
@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        playerCollider = GetComponent<CapsuleCollider2D>();
+        playerCollider = GetComponent<BoxCollider2D>();
         
         // Animator 컴포넌트 가져오기 - CWS
         animator = GetComponent<Animator>();
