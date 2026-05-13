@@ -18,4 +18,8 @@ public class ScoreManager : MonoBehaviour
             uiManager.UpdateScoreDisplay(Mathf.FloorToInt(currentScore));
         }
     }
+    public float GetCurrentScore()  // 플레이어 충돌 시 이 함수를 호출하여 점수를 저장
+    {
+        return currentScore;    // 현재까지 계산된 실시간 점수를 반환
+    }
 }
