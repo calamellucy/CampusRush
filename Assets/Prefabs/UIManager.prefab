@@ -45,3 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   scoreText: {fileID: 0}
+  heartPrefab: {fileID: 8687854926408564545, guid: 42d10d246a4782d4fa4d2293d291a723, type: 3}
+  lifePanel: {fileID: 0}
