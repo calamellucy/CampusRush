@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -5,19 +6,17 @@ using UnityEngine;
 /// : 일정한 시간마다 카메라의 오른쪽 뒤에서 장애물을 소환한다.
 /// 
 /// 추후 개선 계획
-/// : 현재 고정값 0f인 생성위치의 y값(spawnY)은 원하는 위치에 따라 값을 지정.
 /// : 현재 오브젝트가 생성되는 시간이 일정한데, 불규칙적이도록 수정해야함.
 /// : 다양한 종류의 장애물 오브젝트를 구현해야함.
 /// </summary>
 
 public class ObstacleSpawner : MonoBehaviour
 {
-    public GameObject obstaclePrefab; // 생성할 장애물 프리팹. 
+    public GameObject[] obstaclePrefabs; // 3가지 장애물 프리팹 담기
 
     private float spawnX; //생성할 위치의 x값
-    private float spawnY = 0f; //생성할 위치의 y값
-    private float startDelay = 2f; // 첫 생성 대기 시간
-    private float repeatRate = 3f; // 반복 간격 (3초)
+    public float startDelay = 2f; // 첫 생성 대기 시간
+    public float repeatRate = 3f; // 반복 간격 (3초)
 
     void Start()
     {
@@ -30,10 +29,17 @@ public class ObstacleSpawner : MonoBehaviour
 
     void SpawnObstacle()
     {
-        // 계산된 spawnX와 초기 설정된 spawnY로 위치 저장
-        Vector3 spawnPos = new Vector3(spawnX, spawnY, 0);
+        // 안전장치: 프리팹이 등록되지 않았다면 실행하지 않음
+        if (obstaclePrefabs.Length == 0) return;
+
+        // 0부터 (장애물 개수 - 1) 사이의 랜덤한 인덱스(번호) 선택
+        int randomIndex = UnityEngine.Random.Range(0, obstaclePrefabs.Length);
+        GameObject selectedPrefab = obstaclePrefabs[randomIndex];
+
+        // X는 오른쪽 벽 뒤를, Y,Z는 프리팹에 저장된 각자의 높이를 사용.
+        Vector3 spawnPos = new Vector3(spawnX, selectedPrefab.transform.position.y, selectedPrefab.transform.position.z);
 
         // 해당 위치에 장애물 오브젝트 생성
-        Instantiate(obstaclePrefab, spawnPos, obstaclePrefab.transform.rotation);
+        Instantiate(selectedPrefab, spawnPos, selectedPrefab.transform.rotation);
     }
 }
