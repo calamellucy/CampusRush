@@ -5,6 +5,15 @@ public class PlayerCollisionHandler : MonoBehaviour
     [Header("Player Life Settings")]
     public int lives = 3;
 
+    // 게임 시작 시 현재 라이프 수만큼 하트 UI 업데이트 - CWS
+    private void Start()
+    {
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.UpdateLifeUI(lives);
+        }
+    }
+
     public void OnCollisionEnter2D(Collision2D collision)
     {
         // [����] �浹�� ������Ʈ�� Obstacle���� Ȯ��
@@ -23,6 +32,12 @@ public class PlayerCollisionHandler : MonoBehaviour
     // 라이프 변경 공용 함수 - CWS
     public void ChangeLife(int amount) {
         lives += amount;
+
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.UpdateLifeUI(lives);
+        }
+
         if (lives <= 0) {
             lives = 0;
             Debug.Log("Obstacle �浹");
