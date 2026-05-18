@@ -6,10 +6,10 @@ using UnityEngine;
 /// : 일정한 시간마다 카메라의 오른쪽 뒤에서 장애물을 소환한다.
 /// 
 /// 추후 개선 계획
-/// : 현재 오브젝트가 생성되는 시간이 일정한데, 불규칙적이도록 수정해야함.
-/// : 다양한 종류의 장애물 오브젝트를 구현해야함.
+/// : 현재 오브젝트가 생성되는 시간이 일정한데, 불규칙적이도록 수정해야할수도.
 /// </summary>
 
+/// {구가영}
 public class ObstacleSpawner : MonoBehaviour
 {
     public GameObject[] obstaclePrefabs; // 3가지 장애물 프리팹 담기
