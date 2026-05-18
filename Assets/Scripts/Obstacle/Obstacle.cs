@@ -8,6 +8,7 @@ using UnityEngine;
 /// : 현재 -5f로 되어있는 이동속도 변경하기
 /// </summary>
 
+/// {구가영}
 public class Obstacle : MonoBehaviour
 {
     public float moveSpeed = 5f; // 이동 속도
