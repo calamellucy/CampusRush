@@ -194,6 +194,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dec9536ea5872754597247677b958dd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCollisionHandler
+  lives: 3
+  invincibleDuration: 4
 --- !u!1 &1098543660594094353
 GameObject:
   m_ObjectHideFlags: 0
