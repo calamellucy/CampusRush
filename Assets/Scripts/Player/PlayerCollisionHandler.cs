@@ -10,7 +10,7 @@ public class PlayerCollisionHandler : MonoBehaviour
     public float invincibleDuration = 3f;   // 무적 시간
     private bool isInvincible = false;      // 현재 무적 상태인지 여부
 
-    // 게임 시작 시 현재 라이프 수만큼 하트 UI 업데이트 - CWS
+    // [채원] 게임 시작 시 현재 라이프 수만큼 하트 UI 업데이트
     private void Start()
     {
         if (UIManager.Instance != null)
@@ -28,7 +28,7 @@ public class PlayerCollisionHandler : MonoBehaviour
         }
     }
 
-    // 장애물 충돌 처리 로직 - CWS
+    // [채원] 장애물 충돌 처리 로직
     private void HandleObstacleCollision(GameObject obstacle) {
         if (isInvincible) return; // 무적 상태에서는 충돌 무시
 
@@ -41,7 +41,7 @@ public class PlayerCollisionHandler : MonoBehaviour
         }
     }
 
-    // 라이프 변경 공용 함수 - CWS
+    // [채원] 라이프 변경 공용 함수
     public void ChangeLife(int amount) {
         lives += amount;
 
@@ -56,7 +56,7 @@ public class PlayerCollisionHandler : MonoBehaviour
 
             // [����] ��� ���� ���� ������ PlayerPrefs�� ����
             // FindObjectOfType�� ���� ���� ���� ScoreManager���� ������ ������
-            ScoreManager scoreMgr = FindObjectOfType<ScoreManager>();
+            ScoreManager scoreMgr = FindFirstObjectByType<ScoreManager>();
             if (scoreMgr != null)
             {
                 // ScoreManager���� ��� ���� ������ ������ ��ȯ�Ͽ� 'FinalScore'��� Ű�� ����
@@ -70,14 +70,12 @@ public class PlayerCollisionHandler : MonoBehaviour
         }
     }
 
-    /* 이외 아이템 충돌 로직은 필요에 따라 함수 추가해 사용할 것 - CWS*/
-    
+    // [채원] 설정한 무적 시간만큼 대기 후 무적 상태 해제
     private IEnumerator BecomeInvincibleCoroutine()
     {
         isInvincible = true;
         Debug.Log("무적 상태 시작!");
 
-        // 설정한 무적 시간만큼 대기 - CWS
         yield return new WaitForSeconds(invincibleDuration);
 
         isInvincible = false;
