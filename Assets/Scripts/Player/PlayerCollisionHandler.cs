@@ -14,10 +14,10 @@ public class PlayerCollisionHandler : MonoBehaviour
         }
     }
 
-    public void OnCollisionEnter2D(Collision2D collision)
+    public void OnTriggerEnter2D(Collider2D collision)
     {
         // [����] �浹�� ������Ʈ�� Obstacle���� Ȯ��
-        if (collision.gameObject.CompareTag("Obstacle"))
+        if (collision.CompareTag("Obstacle"))
         {
             HandleObstacleCollision(collision.gameObject);
         }
