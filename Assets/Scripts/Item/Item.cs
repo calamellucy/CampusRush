@@ -6,6 +6,7 @@ public class Item : MonoBehaviour
 
     public float moveSpeed = 5f; // 이동 속도
     public float deadZone; // 사라질 왼쪽 X 좌표 경계
+    public int scoreValue = 100; // [예린] 아이템 획득 시 증가할 점수 설정
 
     void Start()
     {
@@ -30,10 +31,19 @@ public class Item : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            // [예린] 아이템 획득 처리 추가
+            ScoreManager scoreMgr = FindFirstObjectByType<ScoreManager>();
+            if (scoreMgr != null)
+            {
+                scoreMgr.AddScore(scoreValue);
+            }
+            else
+            {
+                Debug.LogWarning("씬에서 ScoreManager를 찾을 수 없습니다!");
+            }
+
             // [수아] 아이템 사라짐
             Destroy(gameObject);
-
-            // [수아] 아이템 획득 처리 추가
         }
     }
 }

@@ -22,4 +22,16 @@ public class ScoreManager : MonoBehaviour
     {
         return currentScore;    // 현재까지 계산된 실시간 점수를 반환
     }
+    public void AddScore(int amount)
+    {
+        // [예린] 아이템을 획득했을 때 외부(Item.cs)에서 점수를 즉시 더해줄 공용 함수 추가
+        // 현재 점수에 아이템 점수(amount)를 더하기
+        currentScore += amount;
+
+        // 화면 UI 새로고침
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.UpdateScoreDisplay(Mathf.FloorToInt(currentScore));
+        }
+    }
 }
