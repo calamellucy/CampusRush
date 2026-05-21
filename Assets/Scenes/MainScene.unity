@@ -613,6 +613,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6080959729600640108, guid: a2dda82459aced74faaefa005353d382, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6080959729600640108, guid: a2dda82459aced74faaefa005353d382, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6080959729600640108, guid: a2dda82459aced74faaefa005353d382, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -230
+      objectReference: {fileID: 0}
+    - target: {fileID: 6080959729600640108, guid: a2dda82459aced74faaefa005353d382, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -70
+      objectReference: {fileID: 0}
     - target: {fileID: 7394413907455469737, guid: a2dda82459aced74faaefa005353d382, type: 3}
       propertyPath: m_Name
       value: ScoreCanvas
