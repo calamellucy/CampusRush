@@ -9,10 +9,6 @@ public class Item : MonoBehaviour
     public int hpChangeValue = 0;                // HP 변화량 
     public bool isEventMultiplierApplied = false; // 이벤트 배율(ex: 2배 이벤트) 적용 여부
 
-    [Header("References")]
-    public ScoreManager scoreMgr;
-    public PlayerCollisionHandler playerHealth;
-
     [Header("Movement")]
     // [수아] Obstacle 코드 복사
     public float moveSpeed = 5f; // 이동 속도
@@ -43,6 +39,7 @@ public class Item : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             // [예린] 아이템 획득 처리 추가
+            ScoreManager scoreMgr = FindFirstObjectByType<ScoreManager>();
             if (scoreMgr != null)
             {
                 //여기에서 나중에 이벤트 배율 요소를 계산해 넘기기 (ScroeManager에서도 구현가능)
@@ -54,6 +51,8 @@ public class Item : MonoBehaviour
             }
 
             // 2. [가영] 라이프(HP) 처리 (PlayerCollisionHandler 연동)
+            // 충돌한 플레이어 오브젝트나 그 자식/부모에게서 해당 스크립트를 찾음
+            PlayerCollisionHandler playerHealth = other.GetComponent<PlayerCollisionHandler>();
             if (playerHealth != null)
             {
                 //예시) 만약 커피라면 하트(체력)가 -1됨. 만약 체력키우는 아이템(ex.하트) 먹으면 하트가 +1된다.
