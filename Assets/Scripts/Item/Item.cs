@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using UnityEngine;
 
 public class Item : MonoBehaviour
@@ -12,6 +11,7 @@ public class Item : MonoBehaviour
 
     [Header("References")]
     public ScoreManager scoreMgr;
+    public PlayerCollisionHandler playerHealth;
 
     [Header("Movement")]
     // [수아] Obstacle 코드 복사
@@ -54,8 +54,6 @@ public class Item : MonoBehaviour
             }
 
             // 2. [가영] 라이프(HP) 처리 (PlayerCollisionHandler 연동)
-            // 충돌한 플레이어 오브젝트나 그 자식/부모에게서 해당 스크립트를 찾음
-            PlayerCollisionHandler playerHealth = other.GetComponent<PlayerCollisionHandler>();
             if (playerHealth != null)
             {
                 //예시) 만약 커피라면 하트(체력)가 -1됨. 만약 체력키우는 아이템(ex.하트) 먹으면 하트가 +1된다.
