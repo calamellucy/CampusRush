@@ -71,7 +71,7 @@ public class ItemSpawner : MonoBehaviour
         if (selectedItemPrefab != null)
         {
             Vector3 spawnPos = new Vector3(spawnX, spawnY, 0);
-            Instantiate(itemPrefab, spawnPos, selectedItemPrefab.transform.rotation);
+            Instantiate(selectedItemPrefab, spawnPos, selectedItemPrefab.transform.rotation);
         }
     }
 }
