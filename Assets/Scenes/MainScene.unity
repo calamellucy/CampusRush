@@ -686,6 +686,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2505124087147421365, guid: ff0357eb42667d64c86720630946d3cb, type: 3}
+      propertyPath: itemPool.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2505124087147421365, guid: ff0357eb42667d64c86720630946d3cb, type: 3}
+      propertyPath: itemPool.Array.data[0].itemPrefab
+      value: 
+      objectReference: {fileID: 5030329929612252355, guid: 933c25135d5675f439b16529b24e6491, type: 3}
+    - target: {fileID: 2505124087147421365, guid: ff0357eb42667d64c86720630946d3cb, type: 3}
+      propertyPath: itemPool.Array.data[0].spawnRatio
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2505124087147421365, guid: ff0357eb42667d64c86720630946d3cb, type: 3}
+      propertyPath: itemPool.Array.data[1].itemPrefab
+      value: 
+      objectReference: {fileID: 5030329929612252355, guid: a8d5f9f2000c4f34a8ec34fa8d8cf199, type: 3}
+    - target: {fileID: 2505124087147421365, guid: ff0357eb42667d64c86720630946d3cb, type: 3}
+      propertyPath: itemPool.Array.data[1].spawnRatio
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 4886973493829308584, guid: ff0357eb42667d64c86720630946d3cb, type: 3}
       propertyPath: m_Name
       value: ItemSpawner
