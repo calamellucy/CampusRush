@@ -55,6 +55,12 @@ public class PlayerController : MonoBehaviour
         {
             currentJumpCount = 0;
         }
+        // [예린] 점프 애니메이션 제어를 위해 현재 지면 상태와 y축 속도를 Animator에 전달
+        if (animator != null)
+        {
+            animator.SetBool("IsGrounded", isGrounded);
+            animator.SetFloat("YVelocity", rb.linearVelocity.y);
+        }
     }
 
     // [채원] 점프 입력 처리
