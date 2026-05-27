@@ -45,4 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreManager
   uiManager: {fileID: 0}
-  scoreMultiplier: 10
+  baseScorePerSecond: 10
+  currentScorePerSecond: 10
