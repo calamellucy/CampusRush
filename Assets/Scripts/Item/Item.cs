@@ -5,7 +5,7 @@ public class Item : MonoBehaviour
     // [가영]
     [Header("Item Settings")]
     public string itemName = "Default Item";     // 아이템 이름
-    public int scoreValue = 100;                 // [예린] 아이템 획득 시 증가할 점수
+    public float scoreValue = 100f;              // [예린] 아이템 획득 시 증가할 점수
     public int hpChangeValue = 0;                // HP 변화량 
     public bool isEventMultiplierApplied = false; // 이벤트 배율(ex: 2배 이벤트) 적용 여부
 

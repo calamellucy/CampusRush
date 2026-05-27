@@ -44,7 +44,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc5af28c7aff27d48b38901faa076286, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemSpawner
-  itemPrefab: {fileID: 5030329929612252355, guid: 933c25135d5675f439b16529b24e6491, type: 3}
+  itemPool:
+  - itemPrefab: {fileID: 5030329929612252355, guid: 933c25135d5675f439b16529b24e6491, type: 3}
+    spawnRatio: 5
+  - itemPrefab: {fileID: 5030329929612252355, guid: fd08d157bb86cdc48b840f435684a5be, type: 3}
+    spawnRatio: 10
+  - itemPrefab: {fileID: 5030329929612252355, guid: 232192b7d1e197d48972e9cda227697f, type: 3}
+    spawnRatio: 15
+  - itemPrefab: {fileID: 5030329929612252355, guid: f53ac0a68900a8847aabc21974e5a16d, type: 3}
+    spawnRatio: 20
+  - itemPrefab: {fileID: 5030329929612252355, guid: addc16d002894404a99b99af6a8d754c, type: 3}
+    spawnRatio: 10
+  - itemPrefab: {fileID: 5030329929612252355, guid: 104a99d950367f847b8c1ecd0d9cd329, type: 3}
+    spawnRatio: 8
+  - itemPrefab: {fileID: 5030329929612252355, guid: a8d5f9f2000c4f34a8ec34fa8d8cf199, type: 3}
+    spawnRatio: 5
   spawnX: 0
   spawnY: -2
   startDelay: 1
