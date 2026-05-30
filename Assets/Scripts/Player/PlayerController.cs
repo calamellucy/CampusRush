@@ -5,8 +5,10 @@ public class PlayerController : MonoBehaviour
 {
     // [채원] 점프 관련 값 설정
     [Header("Jump Settings")]
-    [SerializeField] private float jumpForce = 6f;
+    [SerializeField] private float jumpForce = 6f; // [수아] v2.0 이후 삭제
+    // [SerializeField] private float jumpForce = 12f; // v2.0 이후 적용
     [SerializeField] private int maxJumpCount = 2;
+    [SerializeField] private float fallMultiplier = 4.0f;     // 최고점을 찍고 내려올 때 적용할 추가 중력 배율
     private int currentJumpCount = 0;
 
     [Header("Detection Settings")]
@@ -55,6 +57,33 @@ public class PlayerController : MonoBehaviour
         {
             currentJumpCount = 0;
         }
+
+        // [채원] 
+        // ApplyAdditionalGravity(); [수아] v2.0 이후 적용
+
+        // [예린] 점프 애니메이션 제어를 위해 현재 지면 상태와 y축 속도를 Animator에 전달
+        if (animator != null)
+        {
+            animator.SetBool("IsGrounded", isGrounded);
+            animator.SetFloat("YVelocity", rb.linearVelocity.y);
+        }
+    }
+
+    // [채원] 추가 중력 적용 메서드
+    private void ApplyAdditionalGravity()
+    {
+        if (isGrounded) return;
+
+        Vector2 velocity = rb.linearVelocity;
+
+        // 최고점을 찍고 아래로 낙하하기 시작할 때
+        if (rb.linearVelocity.y < 0) 
+        {
+            // fallMultiplier를 적용해 중력 가속도를 붙임
+            velocity.y += Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+        } 
+
+        rb.linearVelocity = velocity;
     }
 
     // [채원] 점프 입력 처리
