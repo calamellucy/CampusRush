@@ -5,7 +5,8 @@ public class PlayerController : MonoBehaviour
 {
     // [채원] 점프 관련 값 설정
     [Header("Jump Settings")]
-    [SerializeField] private float jumpForce = 12f;
+    [SerializeField] private float jumpForce = 6f; // [수아] v2.0 이후 삭제
+    // [SerializeField] private float jumpForce = 12f; // v2.0 이후 적용
     [SerializeField] private int maxJumpCount = 2;
     [SerializeField] private float fallMultiplier = 4.0f;     // 최고점을 찍고 내려올 때 적용할 추가 중력 배율
     private int currentJumpCount = 0;
@@ -58,7 +59,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // [채원] 
-        ApplyAdditionalGravity();
+        // ApplyAdditionalGravity(); [수아] v2.0 이후 적용
 
         // [예린] 점프 애니메이션 제어를 위해 현재 지면 상태와 y축 속도를 Animator에 전달
         if (animator != null)
