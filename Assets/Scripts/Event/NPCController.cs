@@ -27,7 +27,6 @@ public class NPCController : MonoBehaviour
         if (transform.position.x < escapeX && !isTriggered)
         {
             isTriggered = true;
-            eventManager.OnNPCEscaped();
             Destroy(gameObject);
         }
     }
