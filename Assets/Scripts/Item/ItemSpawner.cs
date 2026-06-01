@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class ItemSpawner : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class ItemSpawner : MonoBehaviour
     [SerializeField] private float startDelay = 2f; // 첫 생성 대기 시간
     [SerializeField] private float repeatRate = 3f; // 반복 간격 
 
+    private bool isSpawning = true; // [수아] 장애물 생성 여부 제어 변수
+
     void Start()
     {
         // 화면 오른쪽 끝(1,0) 좌표를 월드 좌표로 변환 (여유값 +2f 추가)
@@ -37,6 +40,8 @@ public class ItemSpawner : MonoBehaviour
     /// </summary>
     void SpawnItem()
     {
+        if (!isSpawning) return; // [수아] 아이템 생성 비활성화일 경우 중지
+
         if (itemPool == null || itemPool.Length == 0) return;
         // [가영]
         // 1. 전체 가중치(비율)의 총합을 구함
@@ -80,5 +85,23 @@ public class ItemSpawner : MonoBehaviour
             Vector3 spawnPos = new Vector3(spawnX, spawnY, 0);
             Instantiate(selectedItemPrefab, spawnPos, selectedItemPrefab.transform.rotation);
         }
+    }
+
+    // [수아] 아이템 생성을 중지하는 함수
+    public void StopSpawning()
+    {
+        isSpawning = false;
+    }
+
+    // [수아] 아이템 생성을 재개하는 함수
+    public void StartSpawning(float delay)
+    {
+        StartCoroutine(ResumeSpawningRoutine(delay));
+    }
+
+    private IEnumerator ResumeSpawningRoutine(float delay)
+    {
+        yield return new WaitForSeconds(delay); // [채원] 지연 시간 대기
+        isSpawning = true; // [채원] 장애물 생성 재개
     }
 }

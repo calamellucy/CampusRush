@@ -5,6 +5,7 @@ public class NPCEventManager : MonoBehaviour
 {
     public float waitTime = 60f;            // [채원] NPC 이벤트가 발생하는 간격 (초 단위)
     public ObstacleSpawner obstacleSpawner; // [채원] 기존 장애물 스포너 연결
+    public ItemSpawner itemSpawner;         // [수아] 아이템 스포너 연결
     public GameObject npcPrefab;            // [채원] 등장할 인물 프리팹
     public BuffManager buffManager;         // [채원] 버프 매니저 연결
 
@@ -32,14 +33,20 @@ public class NPCEventManager : MonoBehaviour
     {
         // [채원] 1. 장애물 생성 중지
         obstacleSpawner.StopSpawning();
+        itemSpawner.StopSpawning(); // [수아] 아이템도 생성 중지함
 
-        // [채원] 2. 3초 대기 후 NPC 등장 (장애물이 안 나오는 상태로 3초 유지)
+        // [채원] 2. 1초 대기 후 NPC 등장
         StartCoroutine(SpawnNPCRoutine());
+
+        // [수아] NPC 생성 후 겹치지 않게 바로 다음 오브젝트 생성
+        // [수아] 최소 1초 간격을 두어 NPC, 아이템, 장애물이 겹치지 않도록 설정함
+        obstacleSpawner.StartSpawning(2f);
+        itemSpawner.StartSpawning(1f);
     }
 
     IEnumerator SpawnNPCRoutine()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
 
         Vector3 spawnPos = new Vector3(spawnX, npcPrefab.transform.position.y, npcPrefab.transform.position.z);
 
@@ -54,21 +61,11 @@ public class NPCEventManager : MonoBehaviour
         }
     }
 
-    // [채원] NPC가 화면 밖으로 완전히 사라졌을 때 호출될 함수 (플레이어가 피했을 때)
-    public void OnNPCEscaped()
-    {
-        // [채원] 화면을 벗어난 지 1초 후에 장애물 다시 생성 시작
-        obstacleSpawner.StartSpawning(1f);
-    }
-
     // [채원] 플레이어와 충돌해서 버프가 발동되었을 때 호출될 함수
     public void OnNPCHit()
     {
         // [채원] 확률에 따라 버프 부여
         DetermineBuff();
-
-        // [채원] 부딪힌 경우에도 인물은 즉시 사라지므로, 1초 뒤 장애물 재생성
-        obstacleSpawner.StartSpawning(1f);
     }
 
     private void DetermineBuff()
