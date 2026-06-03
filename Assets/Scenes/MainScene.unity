@@ -1094,6 +1094,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2dda82459aced74faaefa005353d382, type: 3}
+--- !u!114 &898106094 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2505124087147421365, guid: ff0357eb42667d64c86720630946d3cb, type: 3}
+  m_PrefabInstance: {fileID: 1150131397}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc5af28c7aff27d48b38901faa076286, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemSpawner
 --- !u!4 &970875282 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5399679252213145277, guid: 8597f0f2e00e10541b1989c1e053c9b3, type: 3}
@@ -1359,9 +1370,17 @@ PrefabInstance:
       value: NPCEventManager
       objectReference: {fileID: 0}
     - target: {fileID: 2211667183008786765, guid: bd85d373f591561479b458312ada5207, type: 3}
+      propertyPath: waitTime
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2211667183008786765, guid: bd85d373f591561479b458312ada5207, type: 3}
       propertyPath: buffManager
       value: 
       objectReference: {fileID: 1758883596}
+    - target: {fileID: 2211667183008786765, guid: bd85d373f591561479b458312ada5207, type: 3}
+      propertyPath: itemSpawner
+      value: 
+      objectReference: {fileID: 898106094}
     - target: {fileID: 2211667183008786765, guid: bd85d373f591561479b458312ada5207, type: 3}
       propertyPath: obstacleSpawner
       value: 
