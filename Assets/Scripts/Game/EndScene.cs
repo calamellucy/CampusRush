@@ -99,9 +99,20 @@ public class EndScene : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.8f);
 
         int score = PlayerPrefs.GetInt("FinalScore", 0);
+        string finalGrade = "";
+
+        if (score >= 10000) finalGrade = "A+";
+        else if (score >= 8000) finalGrade = "A0";
+        else if (score >= 7000) finalGrade = "B+";
+        else if (score >= 6000) finalGrade = "B0";
+        else if (score >= 5000) finalGrade = "C+";
+        else if (score >= 4000) finalGrade = "C0";
+        else if (score >= 3000) finalGrade = "D+";
+        else if (score >= 2000) finalGrade = "D0";
+        else finalGrade = "F";
 
         // [수아] 최종 점수 타자기 효과 출력
-        yield return StartCoroutine(TypeText(finalScoreText, "최종 점수: " + score + "   최종 학점: A"));
+        yield return StartCoroutine(TypeText(finalScoreText, "최종 점수: " + score + "   최종 학점: " + finalGrade));
 
         yield return new WaitForSecondsRealtime(0.5f);
 
