@@ -31,9 +31,26 @@ public class ItemSpawner : MonoBehaviour
         // 화면 오른쪽 끝(1,0) 좌표를 월드 좌표로 변환 (여유값 +2f 추가)
         spawnX = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, 0)).x + 2f;
 
-        // startDelay초 후에 시작하여 repeatRate마다 SpawnItem 함수 실행
-        //InvokeRepeating("SpawnItem", startDelay, repeatRate);
+        //아이템 생성하는 코루틴 시작
         StartCoroutine(SpawnRoutine());
+    }
+
+    // 아이템 생성하는 루틴을 코루틴으로 구현
+    IEnumerator SpawnRoutine()
+    {
+        // 첫 시작 대기
+        yield return new WaitForSeconds(startDelay);
+
+        while (true) // 무한 루프
+        {
+            if (isSpawning)
+            {
+                SpawnItem();
+            }
+
+            // repeatRate초마다 반복 (아이템 생성 주기)
+            yield return new WaitForSeconds(repeatRate);
+        }
     }
 
     /// <summary>
@@ -69,13 +86,13 @@ public class ItemSpawner : MonoBehaviour
              *  첫번째 턴에서 currentSum이 50이 되어버리니까
              *  바로 첫 item을 selectedItemPrefab에 넣음!
              */
-            if (randomValue < currentSum) 
+            if (randomValue < currentSum)
             {
                 selectedItemPrefab = item.itemPrefab;
                 break;
             }
         }
-        
+
         // [수아] 4. 계산된 spawnX와 랜덤으로 선택된 spawnY로 위치에 아이템 오브젝트 생성함
         if (selectedItemPrefab != null)
         {

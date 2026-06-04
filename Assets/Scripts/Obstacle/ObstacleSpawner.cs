@@ -30,6 +30,9 @@ public class ObstacleSpawner : MonoBehaviour
 
     void Start()
     {
+        //게임이 시작될 때마다 공용 속도를 초기속도로 리셋
+        currentSpeed = initialSpeed;
+
         // 화면 오른쪽 끝(1,0) 좌표를 월드 좌표로 변환 (여유값 +2f 추가))
         spawnX = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, 0)).x + 2f;
 
@@ -52,8 +55,10 @@ public class ObstacleSpawner : MonoBehaviour
             // 디버그 로그 (콘솔창에 상태 변화 출력)
             Debug.Log($"<color=yellow>[System]</color> 현재 난이도 - 속도: {currentSpeed:F2}");
 
+            // 속도에 비례하여 생성 간격을 조정
+            float currentInterval = spawnInterval + (currentSpeed * 0.1f);
             //대기: 지정된 생성 간격만큼 다음 장애물 생성을 대기
-            yield return new WaitForSeconds(spawnInterval);
+            yield return new WaitForSeconds(currentInterval);
         }
 
     }

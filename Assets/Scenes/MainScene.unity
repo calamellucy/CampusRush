@@ -2199,6 +2199,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1712548478496692875, guid: c88204ad1274e2540ad05f8007298fe7, type: 3}
+      propertyPath: scrollMultiplier
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 4912400969485685783, guid: c88204ad1274e2540ad05f8007298fe7, type: 3}
       propertyPath: m_Name
       value: Background_sky
