@@ -1223,6 +1223,10 @@ PrefabInstance:
       propertyPath: road2
       value: 
       objectReference: {fileID: 970875282}
+    - target: {fileID: 1153600806174808474, guid: 9e5cf2aa6c307c246be0221ce0e27c94, type: 3}
+      propertyPath: scrollMultiplier
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2108774787507951463, guid: 9e5cf2aa6c307c246be0221ce0e27c94, type: 3}
       propertyPath: m_Name
       value: RoadScroller
