@@ -1,6 +1,7 @@
 using System;
-using UnityEngine;
 using System.Collections;
+using System.Reflection;
+using UnityEngine;
 
 /// <summary>
 /// 기능
@@ -11,9 +12,15 @@ using System.Collections;
 /// </summary>
 
 /// {구가영}
-public class ObstacleSpawner : MonoBehaviour
+public class ObstacleSpawner : MonoBehaviour 
 {
     public GameObject[] obstaclePrefabs; // 3가지 장애물 프리팹 담기
+
+    //{가영} 장애물 등 모든 오브젝트와 배경의 속도를 점직적으로 올리기 위한 변수
+    public static float currentSpeed = 5f;        // 현재 공용 속도
+    public float initialSpeed = 5f; //장애물 초기 속도 설정값 (게임 재시작시 처음속도로 돌아가기위함)
+    public float speedIncreaseRate = 0.2f; // 점진적 가속도
+    public float spawnInterval = 3f;       // 현재 생성 간격
 
     private float spawnX; // 생성할 위치의 x값
     public float startDelay = 2f; // 첫 생성 대기 시간
@@ -26,8 +33,29 @@ public class ObstacleSpawner : MonoBehaviour
         // 화면 오른쪽 끝(1,0) 좌표를 월드 좌표로 변환 (여유값 +2f 추가))
         spawnX = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, 0)).x + 2f;
 
-        // startDelay초 후에 시작하여 repeatRate초마다 SpawnObstacle 함수 실행
-        InvokeRepeating("SpawnObstacle", startDelay, repeatRate);
+        // [가영] 코루틴을 시작하는 것으로 변경
+        StartCoroutine(SpawnRoutine());
+    }
+
+    //[가영] 장애물을 일정한 주기마다 생성하며, 시간이 흐를수록 난이도(공용 속도)를 높이는 코루틴
+    IEnumerator SpawnRoutine()
+    {
+        //장애물 생성 플래그(isSpawning)가 true인 동안 반복 실행
+        while (isSpawning)
+        {
+            //장애물 생성 함수 호출
+            SpawnObstacle();
+
+            // 가속 로직: 장애물 생성할 때마다 공용 속도값 증가 
+            currentSpeed += speedIncreaseRate;
+
+            // 디버그 로그 (콘솔창에 상태 변화 출력)
+            Debug.Log($"<color=yellow>[System]</color> 현재 난이도 - 속도: {currentSpeed:F2}");
+
+            //대기: 지정된 생성 간격만큼 다음 장애물 생성을 대기
+            yield return new WaitForSeconds(spawnInterval);
+        }
+
     }
 
     void SpawnObstacle()
@@ -39,25 +67,33 @@ public class ObstacleSpawner : MonoBehaviour
 
         // 0부터 (장애물 개수 - 1) 사이의 랜덤한 인덱스(번호) 선택
         int randomIndex = UnityEngine.Random.Range(0, obstaclePrefabs.Length);
-        GameObject selectedPrefab = obstaclePrefabs[randomIndex];
+        
+        //장애물의 프리팹과 위치 담은 오브젝트 생성
+        GameObject obj = Instantiate(obstaclePrefabs[randomIndex],              // 선택된 프리팹을 화면 오른쪽 끝(spawnX)에 복제하여 생성
+                         new Vector3(spawnX, obstaclePrefabs[randomIndex].transform.position.y, 0), // Y축 위치는 프리팹 설정값을 따르며, Z축은 0으로 고정하고
+                         obstaclePrefabs[randomIndex].transform.rotation);      // 프리팹의 회전값을 유지
 
-        // X는 오른쪽 벽 뒤를, Y,Z는 프리팹에 저장된 각자의 높이를 사용.
-        Vector3 spawnPos = new Vector3(spawnX, selectedPrefab.transform.position.y, selectedPrefab.transform.position.z);
-
-        // 해당 위치에 장애물 오브젝트 생성
-        Instantiate(selectedPrefab, spawnPos, selectedPrefab.transform.rotation);
+        // 생성된 장애물에 현재 속도 주입
+        Obstacle obstacleScript = obj.GetComponent<Obstacle>();
+        if (obstacleScript != null)
+        {
+            obstacleScript.SetSpeed(currentSpeed);
+        }
     }
-    
+
     // [채원] 장애물 생성을 중지하는 함수
     public void StopSpawning()
     {
         isSpawning = false;
-    }   
+        StopAllCoroutines(); // 현재 돌고 있는 모든 생성 코루틴 즉시 정지
+    }
 
     // [채원] 장애물 생성을 재개하는 함수
     public void StartSpawning(float delay)
-    { 
+    {
+        isSpawning = true;
         StartCoroutine(ResumeSpawningRoutine(delay));
+        StartCoroutine(SpawnRoutine()); // 코루틴을 다시 시작
     }
 
     private IEnumerator ResumeSpawningRoutine(float delay)

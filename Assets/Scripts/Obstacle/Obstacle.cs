@@ -31,4 +31,12 @@ public class Obstacle : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    // {가영} 외부에서 속도를 주입받는 메서드
+    public void SetSpeed(float speed)
+    {
+        moveSpeed = speed;
+        // 디버깅: 속도 변화가 일어날 때마다 확인 가능
+        Debug.Log($"[Obstacle] 장애물 속도 설정됨: {moveSpeed}");
+    }
 }
