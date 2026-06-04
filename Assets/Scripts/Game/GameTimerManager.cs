@@ -10,7 +10,7 @@ public class GameTimerManager : MonoBehaviour
     // [수아] 실제로 감소하는 현재 남은 시간
     private float currentTime;
 
-    // [수아] 타이머가 끝났는지 확인, 0초 후 GameOver가 여러 번 실행되는 것 방지
+    // [수아] 타이머가 끝났는지 확인, 0초 후 GameClear가 여러 번 실행되는 것 방지
     private bool isTimerEnd = false;
 
     private void Start()
@@ -36,9 +36,8 @@ public class GameTimerManager : MonoBehaviour
             isTimerEnd = true; // 타이머 종료 상태로 변경
             UpdateTimerText();
 
-            // [수아] 제한 시간이 끝났으므로 게임 종료 처리
-            GameManager.Instance.GameOver();
-            // TODO : 게임 클리어 처리 추가
+            // [수아] 제한 시간이 끝났으므로 게임 클리어 처리
+            GameManager.Instance.GameClear();
 
             return;
         }

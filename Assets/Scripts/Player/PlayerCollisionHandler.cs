@@ -58,17 +58,6 @@ public class PlayerCollisionHandler : MonoBehaviour
 
             Debug.Log("Obstacle 충돌");
 
-            // [예린] 사망 직전 최종 점수를 PlayerPrefs에 저장
-            // FindObjectOfType을 통해 현재 씬의 ScoreManager에서 점수를 가져옴
-            ScoreManager scoreMgr = FindFirstObjectByType<ScoreManager>();
-            if (scoreMgr != null)
-            {
-                // ScoreManager에서 계산 중인 점수를 정수로 변환하여 'FinalScore'라는 키로 저장
-                int finalScore = Mathf.FloorToInt(scoreMgr.GetCurrentScore());
-                PlayerPrefs.SetInt("FinalScore", finalScore);
-                PlayerPrefs.Save(); // 즉시 저장 확인
-            }
-
             // 게임 오버
             GameManager.Instance.GameOver();
         }
