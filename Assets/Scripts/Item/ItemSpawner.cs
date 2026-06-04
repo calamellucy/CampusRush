@@ -32,7 +32,8 @@ public class ItemSpawner : MonoBehaviour
         spawnX = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, 0)).x + 2f;
 
         // startDelay초 후에 시작하여 repeatRate마다 SpawnItem 함수 실행
-        InvokeRepeating("SpawnItem", startDelay, repeatRate);
+        //InvokeRepeating("SpawnItem", startDelay, repeatRate);
+        StartCoroutine(SpawnRoutine());
     }
 
     /// <summary>
