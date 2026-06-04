@@ -1,42 +1,45 @@
 using UnityEngine;
 
 /// <summary>
-/// ±â´É
-/// : ÀÏÁ¤ÇÑ ¼Óµµ·Î ¿ŞÂÊÀ¸·Î ÀÌµ¿ÇÏ´Ù°¡, ¿ŞÂÊ º®À» ³Ñ¾î°¡¸é °´Ã¼¸¦ »èÁ¦ÇÑ´Ù.
+/// ê¸°ëŠ¥
+/// : ì¼ì •í•œ ì†ë„ë¡œ ì™¼ìª½ìœ¼ë¡œ ì´ë™í•˜ë‹¤ê°€, ì™¼ìª½ ë²½ì„ ë„˜ì–´ê°€ë©´ ê°ì²´ë¥¼ ì‚­ì œí•œë‹¤.
 /// 
-/// ÃßÈÄ º¯°æ
-/// : ÇöÀç -5f·Î µÇ¾îÀÖ´Â ÀÌµ¿¼Óµµ º¯°æÇÏ±â
+/// ì¶”í›„ ë³€ê²½
+/// : í˜„ì¬ -5fë¡œ ë˜ì–´ìˆëŠ” ì´ë™ì†ë„ ë³€ê²½í•˜ê¸°
 /// </summary>
 
-/// {±¸°¡¿µ}
+/// {êµ¬ê°€ì˜}
 public class Obstacle : MonoBehaviour
 {
-    public float moveSpeed = 5f; // ÀÌµ¿ ¼Óµµ
-    public float deadZone; // »ç¶óÁú ¿ŞÂÊ X ÁÂÇ¥ °æ°è
+    public float moveSpeed = 5f; // ì´ë™ ì†ë„
+    public float deadZone; // ì‚¬ë¼ì§ˆ ì™¼ìª½ X ì¢Œí‘œ ê²½ê³„
 
     void Start()
     {
-        // È­¸é ¿ŞÂÊ ³¡(0,0) ÁÂÇ¥¸¦ ¿ùµå ÁÂÇ¥·Î º¯È¯ (¿©À¯°ª -2f Ãß°¡)
+        // í™”ë©´ ì™¼ìª½ ë(0,0) ì¢Œí‘œë¥¼ ì›”ë“œ ì¢Œí‘œë¡œ ë³€í™˜ (ì—¬ìœ ê°’ -2f ì¶”ê°€)
         deadZone = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0)).x - 2f;
     }
 
-    void FixedUpdate() //[°¡¿µ] FixedUpdate »ç¿ëÇÏ¿© 'µ¿±âÈ­': ¹°¸® ¿£Áø ÁÖ±â¿¡ ¸ÂÃç ÀÏÁ¤ÇÑ ¼Óµµ·Î ÀÌµ¿
+    void Update() //[ê°€ì˜] FixedUpdate ì‚¬ìš©í•˜ì—¬ 'ë™ê¸°í™”': ë¬¼ë¦¬ ì—”ì§„ ì£¼ê¸°ì— ë§ì¶° ì¼ì •í•œ ì†ë„ë¡œ ì´ë™
     {
-        // ¸Å ÇÁ·¹ÀÓ¸¶´Ù ¿ŞÂÊ ¹æÇâÀ¸·Î ÀÌµ¿
-        transform.Translate(Vector3.left * moveSpeed * Time.fixedDeltaTime);
+        // [ê°€ì˜] ObstacleSpawnerì˜ static ì†ë„ë¥¼ ì°¸ì¡°í•˜ì—¬ ë™ì¼í•˜ê²Œ ì´ë™
+        float speed = ObstacleSpawner.currentSpeed;
 
-        // ¿ŞÂÊ º®(°æ°è¼±)À» ³Ñ¾î°¡¸é °´Ã¼ »èÁ¦
+        // ë§¤ í”„ë ˆì„ë§ˆë‹¤ ì™¼ìª½ ë°©í–¥ìœ¼ë¡œ ì´ë™
+        transform.Translate(Vector3.left * speed * Time.deltaTime);
+
+        // ì™¼ìª½ ë²½(ê²½ê³„ì„ )ì„ ë„˜ì–´ê°€ë©´ ê°ì²´ ì‚­ì œ
         if (transform.position.x < deadZone)
         {
             Destroy(gameObject);
         }
     }
 
-    // {°¡¿µ} ¿ÜºÎ¿¡¼­ ¼Óµµ¸¦ ÁÖÀÔ¹Ş´Â ¸Ş¼­µå
+    // {ê°€ì˜} ì™¸ë¶€ì—ì„œ ì†ë„ë¥¼ ì£¼ì…ë°›ëŠ” ë©”ì„œë“œ
     public void SetSpeed(float speed)
     {
         moveSpeed = speed;
-        // µğ¹ö±ë: ¼Óµµ º¯È­°¡ ÀÏ¾î³¯ ¶§¸¶´Ù È®ÀÎ °¡´É
-        Debug.Log($"[Obstacle] Àå¾Ö¹° ¼Óµµ ¼³Á¤µÊ: {moveSpeed}");
+        // ë””ë²„ê¹…: ì†ë„ ë³€í™”ê°€ ì¼ì–´ë‚  ë•Œë§ˆë‹¤ í™•ì¸ ê°€ëŠ¥
+        Debug.Log($"[Obstacle] ì¥ì• ë¬¼ ì†ë„ ì„¤ì •ë¨: {moveSpeed}");
     }
 }

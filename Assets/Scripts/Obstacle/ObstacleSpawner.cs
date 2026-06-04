@@ -37,12 +37,14 @@ public class ObstacleSpawner : MonoBehaviour
         spawnX = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, 0)).x + 2f;
 
         // [가영] 코루틴을 시작하는 것으로 변경
-        StartCoroutine(SpawnRoutine());
+        StartCoroutine(SpawnRoutine(startDelay));
     }
 
     //[가영] 장애물을 일정한 주기마다 생성하며, 시간이 흐를수록 난이도(공용 속도)를 높이는 코루틴
-    IEnumerator SpawnRoutine()
+    IEnumerator SpawnRoutine(float delay)
     {
+        yield return new WaitForSeconds(delay);
+
         //장애물 생성 플래그(isSpawning)가 true인 동안 반복 실행
         while (isSpawning)
         {
@@ -56,7 +58,7 @@ public class ObstacleSpawner : MonoBehaviour
             Debug.Log($"<color=yellow>[System]</color> 현재 난이도 - 속도: {currentSpeed:F2}");
 
             // 속도에 비례하여 생성 간격을 조정
-            float currentInterval = spawnInterval + (currentSpeed * 0.1f);
+            float currentInterval = spawnInterval; // + (currentSpeed * 0.1f);
             //대기: 지정된 생성 간격만큼 다음 장애물 생성을 대기
             yield return new WaitForSeconds(currentInterval);
         }
@@ -96,14 +98,15 @@ public class ObstacleSpawner : MonoBehaviour
     // [채원] 장애물 생성을 재개하는 함수
     public void StartSpawning(float delay)
     {
-        isSpawning = true;
+        // isSpawning = true;
         StartCoroutine(ResumeSpawningRoutine(delay));
-        StartCoroutine(SpawnRoutine()); // 코루틴을 다시 시작
+        // StartCoroutine(SpawnRoutine()); // 코루틴을 다시 시작
     }
 
     private IEnumerator ResumeSpawningRoutine(float delay)
     {
         yield return new WaitForSeconds(delay); // [채원] 지연 시간 대기
         isSpawning = true; // [채원] 장애물 생성 재개
+        StartCoroutine(SpawnRoutine(0f)); // [수아] 코루틴을 다시 시작
     }
 }

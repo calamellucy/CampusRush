@@ -32,14 +32,14 @@ public class ItemSpawner : MonoBehaviour
         spawnX = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, 0)).x + 2f;
 
         //아이템 생성하는 코루틴 시작
-        StartCoroutine(SpawnRoutine());
+        StartCoroutine(SpawnRoutine(startDelay));
     }
 
     // 아이템 생성하는 루틴을 코루틴으로 구현
-    IEnumerator SpawnRoutine()
+    IEnumerator SpawnRoutine(float delay)
     {
         // 첫 시작 대기
-        yield return new WaitForSeconds(startDelay);
+        yield return new WaitForSeconds(delay);
 
         while (true) // 무한 루프
         {
@@ -109,6 +109,7 @@ public class ItemSpawner : MonoBehaviour
     public void StopSpawning()
     {
         isSpawning = false;
+        StopAllCoroutines();
     }
 
     // [수아] 아이템 생성을 재개하는 함수
@@ -121,5 +122,6 @@ public class ItemSpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(delay); // [채원] 지연 시간 대기
         isSpawning = true; // [채원] 장애물 생성 재개
+        StartCoroutine(SpawnRoutine(0f)); // [수아] 코루틴을 다시 시작
     }
 }
