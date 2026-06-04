@@ -4,8 +4,6 @@ using UnityEngine;
 /// 기능
 /// : 일정한 속도로 왼쪽으로 이동하다가, 왼쪽 벽을 넘어가면 객체를 삭제한다.
 /// 
-/// 추후 변경
-/// : 현재 -5f로 되어있는 이동속도 변경하기
 /// </summary>
 
 /// {구가영}
@@ -20,26 +18,18 @@ public class Obstacle : MonoBehaviour
         deadZone = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0)).x - 2f;
     }
 
-    void Update() //[가영] FixedUpdate 사용하여 '동기화': 물리 엔진 주기에 맞춰 일정한 속도로 이동
+    void Update() 
     {
         // [가영] ObstacleSpawner의 static 속도를 참조하여 동일하게 이동
-        float speed = ObstacleSpawner.currentSpeed;
+        moveSpeed = ObstacleSpawner.currentSpeed;
 
         // 매 프레임마다 왼쪽 방향으로 이동
-        transform.Translate(Vector3.left * speed * Time.deltaTime);
+        transform.Translate(Vector3.left * moveSpeed * Time.deltaTime);
 
         // 왼쪽 벽(경계선)을 넘어가면 객체 삭제
         if (transform.position.x < deadZone)
         {
             Destroy(gameObject);
         }
-    }
-
-    // {가영} 외부에서 속도를 주입받는 메서드
-    public void SetSpeed(float speed)
-    {
-        moveSpeed = speed;
-        // 디버깅: 속도 변화가 일어날 때마다 확인 가능
-        Debug.Log($"[Obstacle] 장애물 속도 설정됨: {moveSpeed}");
     }
 }

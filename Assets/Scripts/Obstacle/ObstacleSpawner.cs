@@ -26,8 +26,6 @@ public class ObstacleSpawner : MonoBehaviour
     public float startDelay = 2f; // 첫 생성 대기 시간
     public float repeatRate = 3f; // 반복 간격 (3초)
 
-    private bool isSpawning = true; // [채원] 장애물 생성 여부 제어 변수
-
     void Start()
     {
         //게임이 시작될 때마다 공용 속도를 초기속도로 리셋
@@ -40,35 +38,29 @@ public class ObstacleSpawner : MonoBehaviour
         StartCoroutine(SpawnRoutine(startDelay));
     }
 
-    //[가영] 장애물을 일정한 주기마다 생성하며, 시간이 흐를수록 난이도(공용 속도)를 높이는 코루틴
+    //[수아] 장애물을 일정한 주기마다 생성, 시간이 흐를 수록 장애물 속도 증가 코루틴
     IEnumerator SpawnRoutine(float delay)
     {
         yield return new WaitForSeconds(delay);
 
-        //장애물 생성 플래그(isSpawning)가 true인 동안 반복 실행
-        while (isSpawning)
+        while (true) // [수아] 시작 대기 후 장애물 생성 반복 실행
         {
-            //장애물 생성 함수 호출
-            SpawnObstacle();
+            SpawnObstacle(); // 장애물 생성
 
             // 가속 로직: 장애물 생성할 때마다 공용 속도값 증가 
             currentSpeed += speedIncreaseRate;
 
-            // 디버그 로그 (콘솔창에 상태 변화 출력)
             Debug.Log($"<color=yellow>[System]</color> 현재 난이도 - 속도: {currentSpeed:F2}");
 
-            // 속도에 비례하여 생성 간격을 조정
-            float currentInterval = spawnInterval; // + (currentSpeed * 0.1f);
-            //대기: 지정된 생성 간격만큼 다음 장애물 생성을 대기
-            yield return new WaitForSeconds(currentInterval);
+            // TODO: 장애물 생성 간격 조정 추가
+
+            yield return new WaitForSeconds(spawnInterval); // 다음 장애물 생성 대기
         }
 
     }
 
     void SpawnObstacle()
     {
-        if (!isSpawning) return; // [채원] 장애물 생성이 비활성화된 경우 함수 종료
-
         // 안전장치: 프리팹이 등록되지 않았다면 실행하지 않음
         if (obstaclePrefabs.Length == 0) return;
 
@@ -80,33 +72,17 @@ public class ObstacleSpawner : MonoBehaviour
                          new Vector3(spawnX, obstaclePrefabs[randomIndex].transform.position.y, 0), // Y축 위치는 프리팹 설정값을 따르며, Z축은 0으로 고정하고
                          obstaclePrefabs[randomIndex].transform.rotation);      // 프리팹의 회전값을 유지
 
-        // 생성된 장애물에 현재 속도 주입
-        Obstacle obstacleScript = obj.GetComponent<Obstacle>();
-        if (obstacleScript != null)
-        {
-            obstacleScript.SetSpeed(currentSpeed);
-        }
     }
 
     // [채원] 장애물 생성을 중지하는 함수
     public void StopSpawning()
     {
-        isSpawning = false;
         StopAllCoroutines(); // 현재 돌고 있는 모든 생성 코루틴 즉시 정지
     }
 
     // [채원] 장애물 생성을 재개하는 함수
     public void StartSpawning(float delay)
     {
-        // isSpawning = true;
-        StartCoroutine(ResumeSpawningRoutine(delay));
-        // StartCoroutine(SpawnRoutine()); // 코루틴을 다시 시작
-    }
-
-    private IEnumerator ResumeSpawningRoutine(float delay)
-    {
-        yield return new WaitForSeconds(delay); // [채원] 지연 시간 대기
-        isSpawning = true; // [채원] 장애물 생성 재개
-        StartCoroutine(SpawnRoutine(0f)); // [수아] 코루틴을 다시 시작
+        StartCoroutine(SpawnRoutine(delay)); // 코루틴을 다시 시작
     }
 }

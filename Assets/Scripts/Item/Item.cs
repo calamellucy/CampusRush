@@ -20,13 +20,13 @@ public class Item : MonoBehaviour
         deadZone = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0)).x - 2f;
     }
 
-    void Update() //[가영] FixedUpdate 사용하여 '동기화': 물리 엔진 주기에 맞춰 일정한 속도로 이동
+    void Update()
     {
         // [가영] ObstacleSpawner의 static 속도를 참조하여 동일하게 이동
-        float speed = ObstacleSpawner.currentSpeed;
+        moveSpeed = ObstacleSpawner.currentSpeed;
 
         // 매 프레임마다 왼쪽 방향으로 이동
-        transform.Translate(Vector3.left * speed * Time.deltaTime); //fixedDeltaTime사용
+        transform.Translate(Vector3.left * moveSpeed * Time.deltaTime); //fixedDeltaTime사용
 
         // 왼쪽 벽(경계선)을 넘어가면 객체 삭제
         if (transform.position.x < deadZone)
