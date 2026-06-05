@@ -14,10 +14,25 @@ public class Item : MonoBehaviour
     public float moveSpeed = 5f; // 이동 속도
     public float deadZone; // 사라질 왼쪽 X 좌표 경계
 
+    [Header("UI Floating Text Settings")]
+    public GameObject floatingText;
+    private Transform canvasTransform;
+
     void Start()
     {
         // 화면 왼쪽 끝(0,0) 좌표를 월드 좌표로 변환 (여유값 -2f 추가)
         deadZone = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0)).x - 2f;
+    
+        GameObject FXCanvasObj = GameObject.Find("FloatingTextCanvas");
+
+        if (FXCanvasObj != null)
+        {
+            canvasTransform = FXCanvasObj.transform;
+        }
+        else
+        {
+            Debug.LogError("하이어라키에 'FloatingTextCanvas' 라는 이름의 캔버스가 없습니다! 이름을 확인해 주세요.");
+        }
     }
 
     void Update()
@@ -54,6 +69,8 @@ public class Item : MonoBehaviour
                 {
                     Debug.LogWarning("씬에서 ScoreManager를 찾을 수 없습니다!");
                 }
+
+                SpawnFloatingText(); // [채원] 점수 아이템 획득 시 플로팅 텍스트 생성
             }
 
             // 2. [가영] 라이프(HP) 처리 (PlayerCollisionHandler 연동)
@@ -76,6 +93,26 @@ public class Item : MonoBehaviour
 
             // 3. [수아] 아이템 오브젝트 파괴
             Destroy(gameObject);
+        }
+    }
+
+    // [채원] 아이템의 현재 월드 위치를 기반으로 UI 텍스트를 생성하는 함수
+    void SpawnFloatingText()
+    {
+        if (floatingText != null && canvasTransform != null)
+        {
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+            screenPos.x += 50f;
+
+            // Canvas의 자식 오브젝트로 플로팅 텍스트 생성
+            GameObject textObj = Instantiate(floatingText, screenPos, Quaternion.identity, canvasTransform);
+            
+            // 프리팹에 붙어있는 FloatingText 스크립트를 가져와 점수 값을 세팅
+            FloatingText floatingTextScript = textObj.GetComponent<FloatingText>();
+            if (floatingTextScript != null)
+            {
+                floatingTextScript.SetScoreText((int)scoreValue);
+            }
         }
     }
 }

@@ -147,3 +147,4 @@ MonoBehaviour:
   isEventMultiplierApplied: 0
   moveSpeed: 5
   deadZone: -15
+  floatingText: {fileID: 8983729154387917766, guid: 5293195e7db09a84eb98b6929768e492, type: 3}
