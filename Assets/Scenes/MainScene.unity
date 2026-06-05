@@ -2509,6 +2509,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: ObstacleSpawner
       objectReference: {fileID: 0}
+    - target: {fileID: 2806775001059365302, guid: 2f4d7eb3f26894746958ebe8451794e2, type: 3}
+      propertyPath: maxLimitInterval
+      value: 2.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2806775001059365302, guid: 2f4d7eb3f26894746958ebe8451794e2, type: 3}
+      propertyPath: baseMaxSpawnInterval
+      value: 3.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7734598267818985404, guid: 2f4d7eb3f26894746958ebe8451794e2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7.6

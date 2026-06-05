@@ -22,12 +22,22 @@ public class ObstacleSpawner : MonoBehaviour
     public float speedIncreaseRate = 0.2f; // 점진적 가속도
     public float spawnInterval = 3f;       // 현재 생성 간격
 
+    [Header("Spawn Interval")]
+    [SerializeField] private float baseMinSpawnInterval = 2.5f; // [수아] 기본 최소 생성 간격
+    [SerializeField] private float baseMaxSpawnInterval = 3.5f; // [수아] 기본 최대 생성 간격
+
+    [SerializeField] private float intervalDecreasePerMinute = 0.3f; // [수아] 1분마다 줄어드는 간격
+    [SerializeField] private float minLimitInterval = 1.8f; // [수아] 최소 간격 하한선
+    [SerializeField] private float maxLimitInterval = 2.2f; // [수아] 최대 간격 하한선
+
     private float spawnX; // 생성할 위치의 x값
     public float startDelay = 2f; // 첫 생성 대기 시간
-    public float repeatRate = 3f; // 반복 간격 (3초)
+    private float gameStartTime;
 
     void Start()
     {
+        gameStartTime = Time.time;
+
         // 게임이 시작될 때마다 처음 난이도로 리셋
         currentSpeedDiff = initialSpeedDiff;
 
@@ -47,14 +57,33 @@ public class ObstacleSpawner : MonoBehaviour
         {
             SpawnObstacle(); // 장애물 생성
 
-            // 가속 로직: 장애물 생성할 때마다 공용 속도값 증가 
+            // 가속 로직: 장애물 생성할 때마다 공용 속도 증가량 추가
             currentSpeedDiff += speedIncreaseRate;
 
             Debug.Log($"<color=yellow>[System]</color> 현재 난이도 - 속도: {currentSpeedDiff:F2}");
 
             // TODO: 장애물 생성 간격 조정 추가
 
-            yield return new WaitForSeconds(spawnInterval); // 다음 장애물 생성 대기
+            // [수아] 게임 시작 후 흐른 시간 계산
+            float elapsedTime = Time.time - gameStartTime;
+
+            // [수아] 몇 분이 지났는지 계산
+            int elapsedMinute = Mathf.FloorToInt(elapsedTime / 60f);
+
+            // [수아] 시간이 지날수록 최소/최대 생성 간격 감소
+            float currentMinInterval = baseMinSpawnInterval - (elapsedMinute * intervalDecreasePerMinute);
+            float currentMaxInterval = baseMaxSpawnInterval - (elapsedMinute * intervalDecreasePerMinute);
+
+            // [수아] 간격이 너무 짧아지지 않도록 하한선 적용
+            currentMinInterval = Mathf.Max(currentMinInterval, minLimitInterval);
+            currentMaxInterval = Mathf.Max(currentMaxInterval, maxLimitInterval);
+
+            // [수아] 최소~최대 생성 간격 사이에서 랜덤 대기 시간 결정
+            float randomInterval = UnityEngine.Random.Range(currentMinInterval, currentMaxInterval);
+
+            yield return new WaitForSeconds(randomInterval);
+
+            // yield return new WaitForSeconds(spawnInterval); // 다음 장애물 생성 대기
         }
 
     }
