@@ -1223,6 +1223,10 @@ PrefabInstance:
       propertyPath: road2
       value: 
       objectReference: {fileID: 970875282}
+    - target: {fileID: 1153600806174808474, guid: 9e5cf2aa6c307c246be0221ce0e27c94, type: 3}
+      propertyPath: scrollMultiplier
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2108774787507951463, guid: 9e5cf2aa6c307c246be0221ce0e27c94, type: 3}
       propertyPath: m_Name
       value: RoadScroller
@@ -2199,6 +2203,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1712548478496692875, guid: c88204ad1274e2540ad05f8007298fe7, type: 3}
+      propertyPath: scrollMultiplier
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 4912400969485685783, guid: c88204ad1274e2540ad05f8007298fe7, type: 3}
       propertyPath: m_Name
       value: Background_sky

@@ -24,15 +24,27 @@ public class ItemSpawner : MonoBehaviour
     [SerializeField] private float startDelay = 2f; // 첫 생성 대기 시간
     [SerializeField] private float repeatRate = 3f; // 반복 간격 
 
-    private bool isSpawning = true; // [수아] 장애물 생성 여부 제어 변수
-
     void Start()
     {
         // 화면 오른쪽 끝(1,0) 좌표를 월드 좌표로 변환 (여유값 +2f 추가)
         spawnX = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, 0)).x + 2f;
 
-        // startDelay초 후에 시작하여 repeatRate마다 SpawnItem 함수 실행
-        InvokeRepeating("SpawnItem", startDelay, repeatRate);
+        //아이템 생성하는 코루틴 시작
+        StartCoroutine(SpawnRoutine(startDelay));
+    }
+
+    // 아이템 생성하는 루틴을 코루틴으로 구현
+    IEnumerator SpawnRoutine(float delay)
+    {
+        // 첫 시작 대기
+        yield return new WaitForSeconds(delay);
+
+        while (true) // 무한 루프
+        {
+            SpawnItem();
+            // repeatRate초마다 반복 (아이템 생성 주기)
+            yield return new WaitForSeconds(repeatRate);
+        }
     }
 
     /// <summary>
@@ -40,8 +52,6 @@ public class ItemSpawner : MonoBehaviour
     /// </summary>
     void SpawnItem()
     {
-        if (!isSpawning) return; // [수아] 아이템 생성 비활성화일 경우 중지
-
         if (itemPool == null || itemPool.Length == 0) return;
         // [가영]
         // 1. 전체 가중치(비율)의 총합을 구함
@@ -68,13 +78,13 @@ public class ItemSpawner : MonoBehaviour
              *  첫번째 턴에서 currentSum이 50이 되어버리니까
              *  바로 첫 item을 selectedItemPrefab에 넣음!
              */
-            if (randomValue < currentSum) 
+            if (randomValue < currentSum)
             {
                 selectedItemPrefab = item.itemPrefab;
                 break;
             }
         }
-        
+
         // [수아] 4. 계산된 spawnX와 랜덤으로 선택된 spawnY로 위치에 아이템 오브젝트 생성함
         if (selectedItemPrefab != null)
         {
@@ -90,18 +100,12 @@ public class ItemSpawner : MonoBehaviour
     // [수아] 아이템 생성을 중지하는 함수
     public void StopSpawning()
     {
-        isSpawning = false;
+        StopAllCoroutines();
     }
 
     // [수아] 아이템 생성을 재개하는 함수
     public void StartSpawning(float delay)
     {
-        StartCoroutine(ResumeSpawningRoutine(delay));
-    }
-
-    private IEnumerator ResumeSpawningRoutine(float delay)
-    {
-        yield return new WaitForSeconds(delay); // [채원] 지연 시간 대기
-        isSpawning = true; // [채원] 장애물 생성 재개
+        StartCoroutine(SpawnRoutine(delay));
     }
 }

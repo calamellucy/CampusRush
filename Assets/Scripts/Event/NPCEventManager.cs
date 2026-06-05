@@ -40,8 +40,8 @@ public class NPCEventManager : MonoBehaviour
 
         // [수아] NPC 생성 후 겹치지 않게 바로 다음 오브젝트 생성
         // [수아] 최소 1초 간격을 두어 NPC, 아이템, 장애물이 겹치지 않도록 설정함
-        obstacleSpawner.StartSpawning(2f);
-        itemSpawner.StartSpawning(1f);
+        obstacleSpawner.StartSpawning(3f);
+        itemSpawner.StartSpawning(2f);
     }
 
     IEnumerator SpawnNPCRoutine()
