@@ -14,10 +14,25 @@ public class Item : MonoBehaviour
     public float moveSpeed = 5f; // 이동 속도
     public float deadZone; // 사라질 왼쪽 X 좌표 경계
 
+    [Header("UI Floating Text Settings")]
+    public GameObject floatingText;
+    private Transform canvasTransform;
+
     void Start()
     {
         // 화면 왼쪽 끝(0,0) 좌표를 월드 좌표로 변환 (여유값 -2f 추가)
         deadZone = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0)).x - 2f;
+    
+        GameObject FXCanvasObj = GameObject.Find("FloatingTextCanvas");
+
+        if (FXCanvasObj != null)
+        {
+            canvasTransform = FXCanvasObj.transform;
+        }
+        else
+        {
+            Debug.LogError("하이어라키에 'FloatingTextCanvas' 라는 이름의 캔버스가 없습니다! 이름을 확인해 주세요.");
+        }
     }
 
     void Update()
@@ -46,14 +61,18 @@ public class Item : MonoBehaviour
             {
                 ScoreManager scoreMgr = FindFirstObjectByType<ScoreManager>();
 
+                float finalCalculatedScore = scoreValue;
+
                 if (scoreMgr != null)
                 {
-                    scoreMgr.AddScore(scoreValue);
+                    finalCalculatedScore = scoreMgr.AddScore(scoreValue);
                 }
                 else
                 {
                     Debug.LogWarning("씬에서 ScoreManager를 찾을 수 없습니다!");
                 }
+
+                SpawnFloatingText(finalCalculatedScore);
             }
 
             // 2. [가영] 라이프(HP) 처리 (PlayerCollisionHandler 연동)
@@ -76,6 +95,24 @@ public class Item : MonoBehaviour
 
             // 3. [수아] 아이템 오브젝트 파괴
             Destroy(gameObject);
+        }
+    }
+
+    // [채원] 아이템의 현재 월드 위치를 기반으로 UI 텍스트를 생성하는 함수
+    void SpawnFloatingText(float finalScore)
+    {
+        if (floatingText != null && canvasTransform != null)
+        {
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+            screenPos.x += 50f; 
+
+            GameObject textObj = Instantiate(floatingText, screenPos, Quaternion.identity, canvasTransform);
+            
+            FloatingText floatingTextScript = textObj.GetComponent<FloatingText>();
+            if (floatingTextScript != null)
+            {
+                floatingTextScript.SetScoreText((int)finalScore);
+            }
         }
     }
 }
