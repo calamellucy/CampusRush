@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95d7a2701d04c3a46b27dbbbe246930b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Obstacle
-  moveSpeed: 5
+  moveSpeed: 7
   deadZone: -15
 --- !u!60 &6828332097422556930
 PolygonCollider2D:
@@ -153,12 +153,12 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 1.9001493, y: -1.28189}
-      - {x: 1.8917975, y: 0.98578143}
-      - {x: 1.4419675, y: 1.4843165}
-      - {x: -0.5580692, y: 1.4663088}
-      - {x: -1.0120606, y: 0.9800134}
-      - {x: -1.5404329, y: 0.97967565}
+    - - {x: 2.0768147, y: -1.28189}
+      - {x: 2.0852885, y: 0.615625}
+      - {x: 1.4924436, y: 1.215112}
+      - {x: -0.40664196, y: 1.1971041}
+      - {x: -0.8942833, y: 0.6855707}
+      - {x: -1.7086854, y: 0.6431699}
       - {x: -2.0816422, y: 0.4029597}
       - {x: -2.1039662, y: -1.2640046}
   m_UseDelaunayMesh: 1

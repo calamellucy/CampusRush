@@ -237,5 +237,6 @@ MonoBehaviour:
   scoreValue: 0
   hpChangeValue: 1
   isEventMultiplierApplied: 0
-  moveSpeed: 5
+  moveSpeed: 6
   deadZone: -15
+  floatingText: {fileID: 0}

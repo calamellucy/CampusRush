@@ -9,6 +9,7 @@ public class RoadScroll : MonoBehaviour
     [Header("Scroll Settings")]
     public float scrollMultiplier = 1f; // [가영] 장애물 속도 대비 도로 이동 비율 
     public float extraMargin = 1f;
+    public float moveSpeed = 5f;
 
     private Camera mainCamera;
     private Renderer road1Renderer;
@@ -31,11 +32,11 @@ public class RoadScroll : MonoBehaviour
             return;
 
         // [가영] 공용 속도를 참조하여 속도를 동기화
-        float currentSpeed = ObstacleSpawner.currentSpeed * scrollMultiplier;
+        float speed = moveSpeed + ObstacleSpawner.currentSpeedDiff;
 
         // [수아] 도로 2개를 왼쪽으로 이동
-        road1.position += Vector3.left * currentSpeed * Time.deltaTime;
-        road2.position += Vector3.left * currentSpeed * Time.deltaTime;
+        road1.position += Vector3.left * speed * Time.deltaTime;
+        road2.position += Vector3.left * speed * Time.deltaTime;
 
         // [수아] 카메라 왼쪽 끝 월드 좌표
         float leftEdge = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).x - extraMargin;

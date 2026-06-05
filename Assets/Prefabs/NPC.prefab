@@ -179,4 +179,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65d042e90a2f7f046911b269e1b405ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCController
-  moveSpeed: 5
+  moveSpeed: 6
