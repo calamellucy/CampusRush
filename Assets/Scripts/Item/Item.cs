@@ -61,16 +61,18 @@ public class Item : MonoBehaviour
             {
                 ScoreManager scoreMgr = FindFirstObjectByType<ScoreManager>();
 
+                float finalCalculatedScore = scoreValue;
+
                 if (scoreMgr != null)
                 {
-                    scoreMgr.AddScore(scoreValue);
+                    finalCalculatedScore = scoreMgr.AddScore(scoreValue);
                 }
                 else
                 {
                     Debug.LogWarning("씬에서 ScoreManager를 찾을 수 없습니다!");
                 }
 
-                SpawnFloatingText(); // [채원] 점수 아이템 획득 시 플로팅 텍스트 생성
+                SpawnFloatingText(finalCalculatedScore);
             }
 
             // 2. [가영] 라이프(HP) 처리 (PlayerCollisionHandler 연동)
@@ -97,21 +99,19 @@ public class Item : MonoBehaviour
     }
 
     // [채원] 아이템의 현재 월드 위치를 기반으로 UI 텍스트를 생성하는 함수
-    void SpawnFloatingText()
+    void SpawnFloatingText(float finalScore)
     {
         if (floatingText != null && canvasTransform != null)
         {
             Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
-            screenPos.x += 50f;
+            screenPos.x += 50f; 
 
-            // Canvas의 자식 오브젝트로 플로팅 텍스트 생성
             GameObject textObj = Instantiate(floatingText, screenPos, Quaternion.identity, canvasTransform);
             
-            // 프리팹에 붙어있는 FloatingText 스크립트를 가져와 점수 값을 세팅
             FloatingText floatingTextScript = textObj.GetComponent<FloatingText>();
             if (floatingTextScript != null)
             {
-                floatingTextScript.SetScoreText((int)scoreValue);
+                floatingTextScript.SetScoreText((int)finalScore);
             }
         }
     }

@@ -30,7 +30,7 @@ public class ScoreManager : MonoBehaviour
         return currentScore;    // 소수점이 포함된 실시간 점수를 반환
     }
 
-    public void AddScore(float amount)
+    public float AddScore(float amount)
     {
         // [예린] 아이템을 획득했을 때 외부(Item.cs)에서 호출하여 점수를 반영하는 함수 추가
         // 원래 획득해야 하는 점수(amount)에 배율 계산하기
@@ -63,6 +63,8 @@ public class ScoreManager : MonoBehaviour
         {
             UIManager.Instance.UpdateScoreDisplay(Mathf.FloorToInt(currentScore));
         }
+
+        return amount;
     }
 
     // [수아] 이벤트 효과 리셋 함수
