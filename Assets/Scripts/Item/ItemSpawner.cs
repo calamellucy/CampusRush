@@ -22,7 +22,9 @@ public class ItemSpawner : MonoBehaviour
     [SerializeField] private float middleY = 1f; //중간 생성 위치
     [SerializeField] private float highY = 3f; //위쪽 생성 위치
     [SerializeField] private float startDelay = 2f; // 첫 생성 대기 시간
-    [SerializeField] private float repeatRate = 3f; // 반복 간격 
+    // [SerializeField] private float repeatRate = 3f; // 반복 간격 
+    [SerializeField] private float minItemInterval = 2.0f; // 최소 생성 간격
+    [SerializeField] private float maxItemInterval = 4.0f; // 최대 생성 간격
 
     void Start()
     {
@@ -43,7 +45,9 @@ public class ItemSpawner : MonoBehaviour
         {
             SpawnItem();
             // repeatRate초마다 반복 (아이템 생성 주기)
-            yield return new WaitForSeconds(repeatRate);
+            float randomInterval = Random.Range(minItemInterval, maxItemInterval);
+            yield return new WaitForSeconds(randomInterval);
+            // yield return new WaitForSeconds(repeatRate);
         }
     }
 
