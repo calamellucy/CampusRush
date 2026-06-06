@@ -808,7 +808,7 @@ GameObject:
   - component: {fileID: 591202559}
   - component: {fileID: 591202558}
   m_Layer: 5
-  m_Name: CultBuffUI
+  m_Name: GangBuffUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -830,8 +830,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -607.9269, y: -250.67}
-  m_SizeDelta: {x: 577.927, y: 100.67}
+  m_AnchoredPosition: {x: -694.6752, y: -250.66998}
+  m_SizeDelta: {x: 664.675, y: 100.67}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &591202558
 MonoBehaviour:
@@ -853,8 +853,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB3C4\uB97C \uC544\uC2ED\uB2C8\uAE4C\uB97C \uB9CC\uB0AC\uB2E4. \uAE38\uB9C9\uC744
-    \uB2F9\uD588\uB2E4!"
+  m_text: "\uACE8\uBAA9\uAE38\uC5D0\uC11C \uD37D\uCE58\uAE30\uB97C \uB2F9\uD588\uB2E4.
+    \uAE30\uC5B5\uC744 \uC783\uC5B4\uBC84\uB838\uB2E4!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 75f08d05ac73166469877ec29a2dc6b9, type: 2}
   m_sharedMaterial: {fileID: 8962988179611175199, guid: 75f08d05ac73166469877ec29a2dc6b9, type: 2}
@@ -1847,6 +1847,11 @@ MonoBehaviour:
   m_ChildScaleWidth: 1
   m_ChildScaleHeight: 1
   m_ReverseArrangement: 0
+--- !u!1 &1482271305 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4671788606406544409, guid: b17e38f035f156742be056622670b06c, type: 3}
+  m_PrefabInstance: {fileID: 8713588938225563063}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1559561114 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2806775001059365302, guid: 2f4d7eb3f26894746958ebe8451794e2, type: 3}
@@ -1889,7 +1894,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BuffManager
   professorBuffUI: {fileID: 184102755}
   romanceBuffUI: {fileID: 1791468145}
-  cultBuffUI: {fileID: 591202556}
+  gangBuffUI: {fileID: 591202556}
+  buffVisualObject: {fileID: 1482271305}
   scoreManager: {fileID: 225178341}
 --- !u!4 &1758883597
 Transform:
