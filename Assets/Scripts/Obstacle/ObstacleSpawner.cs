@@ -30,6 +30,7 @@ public class ObstacleSpawner : MonoBehaviour
     [SerializeField] private float intervalDecreasePerMinute = 0.25f; // [수아] 1분마다 줄어드는 간격
     [SerializeField] private float minLimitInterval = 1.5f; // [수아] 최소 간격 하한선
     [SerializeField] private float maxLimitInterval = 2.0f; // [수아] 최대 간격 하한선
+    [SerializeField] private SpawnTimingManager spawnTimingManager;
 
     private float spawnX; // 생성할 위치의 x값
     public float startDelay = 2f; // 첫 생성 대기 시간
@@ -56,7 +57,25 @@ public class ObstacleSpawner : MonoBehaviour
 
         while (true) // [수아] 시작 대기 후 장애물 생성 반복 실행
         {
+            // [수아] 최근 아이템 생성 시간과 너무 가까우면 잠시 대기
+            if (spawnTimingManager != null)
+            {
+                float waitTime = spawnTimingManager.GetObstacleWaitTime();
+
+                if (waitTime > 0f)
+                {
+                    yield return new WaitForSeconds(waitTime);
+                }
+            }
+
+
             SpawnObstacle(); // 장애물 생성
+
+            // [수아] 장애물 생성 시간 기록
+            if (spawnTimingManager != null)
+            {
+                spawnTimingManager.RegisterObstacleSpawn();
+            }
 
             // 가속 로직: 장애물 생성할 때마다 공용 속도 증가량 추가
             currentSpeedDiff += speedIncreaseRate;
@@ -64,9 +83,7 @@ public class ObstacleSpawner : MonoBehaviour
             {
                 currentSpeedDiff = maxSpeedIncreaseRate;
             }
-                Debug.Log($"<color=yellow>[System]</color> 현재 난이도 - 속도: {currentSpeedDiff:F2}");
-
-            // TODO: 장애물 생성 간격 조정 추가
+            Debug.Log($"<color=yellow>[System]</color> 현재 난이도 - 속도: {currentSpeedDiff:F2}");
 
             // [수아] 게임 시작 후 흐른 시간 계산
             float elapsedTime = Time.time - gameStartTime;
@@ -86,8 +103,6 @@ public class ObstacleSpawner : MonoBehaviour
             float randomInterval = UnityEngine.Random.Range(currentMinInterval, currentMaxInterval);
 
             yield return new WaitForSeconds(randomInterval);
-
-            // yield return new WaitForSeconds(spawnInterval); // 다음 장애물 생성 대기
         }
 
     }

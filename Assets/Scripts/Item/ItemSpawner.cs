@@ -22,9 +22,9 @@ public class ItemSpawner : MonoBehaviour
     [SerializeField] private float middleY = 1f; //중간 생성 위치
     [SerializeField] private float highY = 3f; //위쪽 생성 위치
     [SerializeField] private float startDelay = 2f; // 첫 생성 대기 시간
-    // [SerializeField] private float repeatRate = 3f; // 반복 간격 
     [SerializeField] private float minItemInterval = 2.0f; // 최소 생성 간격
     [SerializeField] private float maxItemInterval = 4.0f; // 최대 생성 간격
+    [SerializeField] private SpawnTimingManager spawnTimingManager;
 
     void Start()
     {
@@ -43,11 +43,28 @@ public class ItemSpawner : MonoBehaviour
 
         while (true) // 무한 루프
         {
+            // [수아] 최근 장애물 생성 시간과 너무 가까우면 잠시 대기
+            if (spawnTimingManager != null)
+            {
+                float waitTime = spawnTimingManager.GetItemWaitTime();
+
+                if (waitTime > 0f)
+                {
+                    yield return new WaitForSeconds(waitTime);
+                }
+            }
+
             SpawnItem();
-            // repeatRate초마다 반복 (아이템 생성 주기)
+
+            // [수아] 아이템 생성 시간 기록
+            if (spawnTimingManager != null)
+            {
+                spawnTimingManager.RegisterItemSpawn();
+            }
+
+            // [수아] 아이템 생성 간격을 랜덤으로 정함 
             float randomInterval = Random.Range(minItemInterval, maxItemInterval);
             yield return new WaitForSeconds(randomInterval);
-            // yield return new WaitForSeconds(repeatRate);
         }
     }
 

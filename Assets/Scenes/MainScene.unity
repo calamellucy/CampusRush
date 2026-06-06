@@ -1202,6 +1202,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc5af28c7aff27d48b38901faa076286, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemSpawner
+--- !u!114 &916201316 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8027323788787095811, guid: 5765344395624e54d9dc44d62c5d8d5c, type: 3}
+  m_PrefabInstance: {fileID: 248180994195402570}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474ced2b90bd4594f97de5fb564ff677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnTimingManager
 --- !u!4 &970875282 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5399679252213145277, guid: 8597f0f2e00e10541b1989c1e053c9b3, type: 3}
@@ -1328,6 +1339,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2505124087147421365, guid: ff0357eb42667d64c86720630946d3cb, type: 3}
+      propertyPath: spawnTimingManager
+      value: 
+      objectReference: {fileID: 916201316}
     - target: {fileID: 2505124087147421365, guid: ff0357eb42667d64c86720630946d3cb, type: 3}
       propertyPath: itemPool.Array.size
       value: 7
@@ -2282,6 +2297,67 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a488201f3ecf18543a1eb6e969dc2a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+--- !u!1001 &248180994195402570
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3500172441692664051, guid: 5765344395624e54d9dc44d62c5d8d5c, type: 3}
+      propertyPath: m_Name
+      value: SpawnTimingManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8027323788787095811, guid: 5765344395624e54d9dc44d62c5d8d5c, type: 3}
+      propertyPath: minGapBetweenObstacleAndItem
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8212001239496392085, guid: 5765344395624e54d9dc44d62c5d8d5c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 829.7019
+      objectReference: {fileID: 0}
+    - target: {fileID: 8212001239496392085, guid: 5765344395624e54d9dc44d62c5d8d5c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 462.2541
+      objectReference: {fileID: 0}
+    - target: {fileID: 8212001239496392085, guid: 5765344395624e54d9dc44d62c5d8d5c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8212001239496392085, guid: 5765344395624e54d9dc44d62c5d8d5c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8212001239496392085, guid: 5765344395624e54d9dc44d62c5d8d5c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8212001239496392085, guid: 5765344395624e54d9dc44d62c5d8d5c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8212001239496392085, guid: 5765344395624e54d9dc44d62c5d8d5c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8212001239496392085, guid: 5765344395624e54d9dc44d62c5d8d5c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8212001239496392085, guid: 5765344395624e54d9dc44d62c5d8d5c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8212001239496392085, guid: 5765344395624e54d9dc44d62c5d8d5c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5765344395624e54d9dc44d62c5d8d5c, type: 3}
 --- !u!1001 &3124803709584505996
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2518,6 +2594,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2806775001059365302, guid: 2f4d7eb3f26894746958ebe8451794e2, type: 3}
+      propertyPath: spawnTimingManager
+      value: 
+      objectReference: {fileID: 916201316}
+    - target: {fileID: 2806775001059365302, guid: 2f4d7eb3f26894746958ebe8451794e2, type: 3}
       propertyPath: baseMaxSpawnInterval
       value: 3.5
       objectReference: {fileID: 0}
@@ -2596,3 +2676,4 @@ SceneRoots:
   - {fileID: 1802790136}
   - {fileID: 186197417}
   - {fileID: 1266124003}
+  - {fileID: 248180994195402570}
