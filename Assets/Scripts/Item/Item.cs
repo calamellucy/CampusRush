@@ -18,6 +18,11 @@ public class Item : MonoBehaviour
     public GameObject floatingText;
     private Transform canvasTransform;
 
+    // [예린] 아이템 획득 효과음 설정
+    [Header("Sound Settings")]
+    [SerializeField] private AudioClip itemGetSound;
+    [SerializeField] private float itemGetSoundVolume = 1.0f; // 아이템 획득 효과음 볼륨
+
     void Start()
     {
         // 화면 왼쪽 끝(0,0) 좌표를 월드 좌표로 변환 (여유값 -2f 추가)
@@ -91,6 +96,13 @@ public class Item : MonoBehaviour
                 {
                     Debug.LogWarning("Player에게서 PlayerCollisionHandler 컴포넌트를 찾을 수 없습니다!");
                 }
+            }
+
+            // [예린] 아이템 획득 효과음 재생
+            if (itemGetSound != null)
+            {
+                Vector3 soundPosition = Camera.main != null ? Camera.main.transform.position : transform.position;
+                AudioSource.PlayClipAtPoint(itemGetSound, soundPosition, itemGetSoundVolume);
             }
 
             // 3. [수아] 아이템 오브젝트 파괴
