@@ -151,5 +151,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95d7a2701d04c3a46b27dbbbe246930b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Obstacle
-  moveSpeed: 5
+  moveSpeed: 6
   deadZone: -15

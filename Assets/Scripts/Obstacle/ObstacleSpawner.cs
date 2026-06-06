@@ -17,19 +17,31 @@ public class ObstacleSpawner : MonoBehaviour
     public GameObject[] obstaclePrefabs; // 3가지 장애물 프리팹 담기
 
     //{가영} 장애물 등 모든 오브젝트와 배경의 속도를 점직적으로 올리기 위한 변수
-    public static float currentSpeed = 5f;        // 현재 공용 속도
-    public float initialSpeed = 5f; //장애물 초기 속도 설정값 (게임 재시작시 처음속도로 돌아가기위함)
+    public static float currentSpeedDiff = 0f;        // 현재 증가한 속도량
+    public float initialSpeedDiff = 0f; //장애물 초기 속도 설정값 (게임 재시작시 처음 난이도로 돌아가기위함)
     public float speedIncreaseRate = 0.2f; // 점진적 가속도
+    public float maxSpeedIncreaseRate = 13f;
     public float spawnInterval = 3f;       // 현재 생성 간격
+
+    [Header("Spawn Interval")]
+    [SerializeField] private float baseMinSpawnInterval = 2.5f; // [수아] 기본 최소 생성 간격
+    [SerializeField] private float baseMaxSpawnInterval = 3.5f; // [수아] 기본 최대 생성 간격
+
+    [SerializeField] private float intervalDecreasePerMinute = 0.25f; // [수아] 1분마다 줄어드는 간격
+    [SerializeField] private float minLimitInterval = 1.5f; // [수아] 최소 간격 하한선
+    [SerializeField] private float maxLimitInterval = 2.0f; // [수아] 최대 간격 하한선
+    [SerializeField] private SpawnTimingManager spawnTimingManager;
 
     private float spawnX; // 생성할 위치의 x값
     public float startDelay = 2f; // 첫 생성 대기 시간
-    public float repeatRate = 3f; // 반복 간격 (3초)
+    private float gameStartTime;
 
     void Start()
     {
-        //게임이 시작될 때마다 공용 속도를 초기속도로 리셋
-        currentSpeed = initialSpeed;
+        gameStartTime = Time.time;
+
+        // 게임이 시작될 때마다 처음 난이도로 리셋
+        currentSpeedDiff = initialSpeedDiff;
 
         // 화면 오른쪽 끝(1,0) 좌표를 월드 좌표로 변환 (여유값 +2f 추가))
         spawnX = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, 0)).x + 2f;
@@ -45,16 +57,52 @@ public class ObstacleSpawner : MonoBehaviour
 
         while (true) // [수아] 시작 대기 후 장애물 생성 반복 실행
         {
+            // [수아] 최근 아이템 생성 시간과 너무 가까우면 잠시 대기
+            if (spawnTimingManager != null)
+            {
+                float waitTime = spawnTimingManager.GetObstacleWaitTime();
+
+                if (waitTime > 0f)
+                {
+                    yield return new WaitForSeconds(waitTime);
+                }
+            }
+
+
             SpawnObstacle(); // 장애물 생성
 
-            // 가속 로직: 장애물 생성할 때마다 공용 속도값 증가 
-            currentSpeed += speedIncreaseRate;
+            // [수아] 장애물 생성 시간 기록
+            if (spawnTimingManager != null)
+            {
+                spawnTimingManager.RegisterObstacleSpawn();
+            }
 
-            Debug.Log($"<color=yellow>[System]</color> 현재 난이도 - 속도: {currentSpeed:F2}");
+            // 가속 로직: 장애물 생성할 때마다 공용 속도 증가량 추가
+            currentSpeedDiff += speedIncreaseRate;
+            if (currentSpeedDiff > maxSpeedIncreaseRate)
+            {
+                currentSpeedDiff = maxSpeedIncreaseRate;
+            }
+            Debug.Log($"<color=yellow>[System]</color> 현재 난이도 - 속도: {currentSpeedDiff:F2}");
 
-            // TODO: 장애물 생성 간격 조정 추가
+            // [수아] 게임 시작 후 흐른 시간 계산
+            float elapsedTime = Time.time - gameStartTime;
 
-            yield return new WaitForSeconds(spawnInterval); // 다음 장애물 생성 대기
+            // [수아] 몇 분이 지났는지 계산
+            int elapsedMinute = Mathf.FloorToInt(elapsedTime / 30f);
+
+            // [수아] 시간이 지날수록 최소/최대 생성 간격 감소
+            float currentMinInterval = baseMinSpawnInterval - (elapsedMinute * intervalDecreasePerMinute);
+            float currentMaxInterval = baseMaxSpawnInterval - (elapsedMinute * intervalDecreasePerMinute);
+
+            // [수아] 간격이 너무 짧아지지 않도록 하한선 적용
+            currentMinInterval = Mathf.Max(currentMinInterval, minLimitInterval);
+            currentMaxInterval = Mathf.Max(currentMaxInterval, maxLimitInterval);
+
+            // [수아] 최소~최대 생성 간격 사이에서 랜덤 대기 시간 결정
+            float randomInterval = UnityEngine.Random.Range(currentMinInterval, currentMaxInterval);
+
+            yield return new WaitForSeconds(randomInterval);
         }
 
     }
