@@ -11,7 +11,7 @@ public class ScoreManager : MonoBehaviour
     private float ItemScoreMultiplier = 1f;   // [수아] 이벤트로 인한 점수 배율
     private bool isProfessorEffect = false;   // [수아] 교수님 효과 체크 변수
     private bool isRomanceEffect = false;     // [수아] 로맨스 효과 체크 변수
-    private bool isCultEffect = false;        // [수아] 사이비 효과 체크 변수
+    private bool isGangEffect = false;        // [수아] 깡패 효과 체크 변수
 
     void Update()
     {
@@ -46,9 +46,9 @@ public class ScoreManager : MonoBehaviour
             {
                 amount *= ItemScoreMultiplier;
             }
-            else if (isCultEffect)
+            else if (isGangEffect)
             {
-                // [수아] 사이비 효과는 마이너스가 그대로 들어감
+                // [수아] 깡패 효과는 마이너스가 그대로 들어감
             }
         }
         else // [수아] 마이너스 점수가 아닌 정상 점수는 이벤트 효과(배율)를 곱해줌
@@ -74,7 +74,7 @@ public class ScoreManager : MonoBehaviour
         SetScorePerSecond(1f);
         isProfessorEffect = false;
         isRomanceEffect = false;
-        isCultEffect = false;
+        isGangEffect = false;
     }
 
     // [수아] 이벤트 효과 적용 함수들
@@ -97,13 +97,13 @@ public class ScoreManager : MonoBehaviour
         // [수아] 아이템 효과 2배, 초당 점수는 기본 유지
     }
 
-    public void ApplyCultEffect() // 사이비 효과
+    public void ApplyGangEffect() // 깡패 효과
     {
         ResetScoreEffect();
-        isCultEffect = true;
+        isGangEffect = true;
         SetItemScoreMultiplier(0.5f);
         SetScorePerSecond(0.5f);
-        Debug.Log("사이비 효과 발동");
+        Debug.Log("깡패 효과 발동");
         // [수아] 아이템 효과 0.5배 (마이너스 포함), 초당 점수 0.5배
     }
 

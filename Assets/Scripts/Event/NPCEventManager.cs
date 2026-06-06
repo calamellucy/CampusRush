@@ -82,7 +82,7 @@ public class NPCEventManager : MonoBehaviour
         }
         else // [채원] 20% 확률 (80 ~ 99)
         {
-            buffManager.ApplyBuff("Cult");
+            buffManager.ApplyBuff("Gang");
         }
     }
 }
