@@ -20,15 +20,16 @@ public class ObstacleSpawner : MonoBehaviour
     public static float currentSpeedDiff = 0f;        // 현재 증가한 속도량
     public float initialSpeedDiff = 0f; //장애물 초기 속도 설정값 (게임 재시작시 처음 난이도로 돌아가기위함)
     public float speedIncreaseRate = 0.2f; // 점진적 가속도
+    public float maxSpeedIncreaseRate = 13f;
     public float spawnInterval = 3f;       // 현재 생성 간격
 
     [Header("Spawn Interval")]
     [SerializeField] private float baseMinSpawnInterval = 2.5f; // [수아] 기본 최소 생성 간격
     [SerializeField] private float baseMaxSpawnInterval = 3.5f; // [수아] 기본 최대 생성 간격
 
-    [SerializeField] private float intervalDecreasePerMinute = 0.3f; // [수아] 1분마다 줄어드는 간격
-    [SerializeField] private float minLimitInterval = 1.8f; // [수아] 최소 간격 하한선
-    [SerializeField] private float maxLimitInterval = 2.2f; // [수아] 최대 간격 하한선
+    [SerializeField] private float intervalDecreasePerMinute = 0.25f; // [수아] 1분마다 줄어드는 간격
+    [SerializeField] private float minLimitInterval = 1.5f; // [수아] 최소 간격 하한선
+    [SerializeField] private float maxLimitInterval = 2.0f; // [수아] 최대 간격 하한선
 
     private float spawnX; // 생성할 위치의 x값
     public float startDelay = 2f; // 첫 생성 대기 시간
@@ -59,8 +60,11 @@ public class ObstacleSpawner : MonoBehaviour
 
             // 가속 로직: 장애물 생성할 때마다 공용 속도 증가량 추가
             currentSpeedDiff += speedIncreaseRate;
-
-            Debug.Log($"<color=yellow>[System]</color> 현재 난이도 - 속도: {currentSpeedDiff:F2}");
+            if (currentSpeedDiff > maxSpeedIncreaseRate)
+            {
+                currentSpeedDiff = maxSpeedIncreaseRate;
+            }
+                Debug.Log($"<color=yellow>[System]</color> 현재 난이도 - 속도: {currentSpeedDiff:F2}");
 
             // TODO: 장애물 생성 간격 조정 추가
 
@@ -68,7 +72,7 @@ public class ObstacleSpawner : MonoBehaviour
             float elapsedTime = Time.time - gameStartTime;
 
             // [수아] 몇 분이 지났는지 계산
-            int elapsedMinute = Mathf.FloorToInt(elapsedTime / 60f);
+            int elapsedMinute = Mathf.FloorToInt(elapsedTime / 30f);
 
             // [수아] 시간이 지날수록 최소/최대 생성 간격 감소
             float currentMinInterval = baseMinSpawnInterval - (elapsedMinute * intervalDecreasePerMinute);

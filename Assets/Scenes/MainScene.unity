@@ -1570,7 +1570,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2211667183008786765, guid: bd85d373f591561479b458312ada5207, type: 3}
       propertyPath: waitTime
-      value: 10
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 2211667183008786765, guid: bd85d373f591561479b458312ada5207, type: 3}
       propertyPath: buffManager
@@ -2043,7 +2043,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3124559685235757742, guid: 1c702e41b3ba2f841bcff5ca5f0fa50a, type: 3}
       propertyPath: timeLimit
-      value: 300
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 3124559685235757742, guid: 1c702e41b3ba2f841bcff5ca5f0fa50a, type: 3}
       propertyPath: timerText
@@ -2511,11 +2511,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2806775001059365302, guid: 2f4d7eb3f26894746958ebe8451794e2, type: 3}
       propertyPath: maxLimitInterval
-      value: 2.2
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2806775001059365302, guid: 2f4d7eb3f26894746958ebe8451794e2, type: 3}
+      propertyPath: minLimitInterval
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2806775001059365302, guid: 2f4d7eb3f26894746958ebe8451794e2, type: 3}
       propertyPath: baseMaxSpawnInterval
       value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2806775001059365302, guid: 2f4d7eb3f26894746958ebe8451794e2, type: 3}
+      propertyPath: intervalDecreasePerMinute
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 7734598267818985404, guid: 2f4d7eb3f26894746958ebe8451794e2, type: 3}
       propertyPath: m_LocalPosition.x
