@@ -11,6 +11,14 @@ public class PlayerCollisionHandler : MonoBehaviour
     public float invincibleDuration = 3f;   // 무적 시간
     private bool isInvincible = false;      // 현재 무적 상태인지 여부
 
+    [Header("Flash Effects")]
+    [SerializeField] private float flashInterval = 0.1f; // 한 번 깜빡일 때의 속도
+    [Range(0f, 1f)]
+    [SerializeField] private float minAlpha = 0f;        // 가장 투명해질 때의 알파 값
+
+    private SpriteRenderer playerSprite; // 플레이어 SpriteRenderer 참조
+    private Color originalColor;         // 플레이어의 원래 색상 저장
+
     // [예린] 장애물 충돌 효과음 설정
     [Header("Sound Settings")]
     [SerializeField] private AudioClip hitSound;      // 장애물 충돌 효과음
@@ -19,6 +27,17 @@ public class PlayerCollisionHandler : MonoBehaviour
 
     private void Awake()
     {
+        playerSprite = GetComponentInChildren<SpriteRenderer>();
+        
+        if (playerSprite != null)
+        {
+            originalColor = playerSprite.color; // 시작 색상(투명도 포함) 저장
+        }
+        else
+        {
+            // 하위에도 없는 경우를 대비한 예외 처리
+            Debug.LogError("Player 오브젝트 또는 하위 자식 오브젝트에 SpriteRenderer 컴포넌트가 없습니다!");
+        }
         // [예린] Player에 붙어 있는 AudioSource 컴포넌트 가져오기
         audioSource = GetComponent<AudioSource>();
     }
@@ -87,7 +106,29 @@ public class PlayerCollisionHandler : MonoBehaviour
         isInvincible = true;
         Debug.Log("무적 상태 시작!");
 
+        if (playerSprite != null)
+    {
+        float elapsedTime = 0f;
+        bool isVisble = false; // 켜고 끌 상태 스위치
+
+        while (elapsedTime < invincibleDuration)
+        {
+            float targetAlpha = isVisble ? originalColor.a : minAlpha;
+            
+            playerSprite.color = new Color(originalColor.r, originalColor.g, originalColor.b, targetAlpha);
+            
+            isVisble = !isVisble; // 상태 반전
+            
+            yield return new WaitForSeconds(flashInterval);
+            elapsedTime += flashInterval;
+        }
+
+        playerSprite.color = originalColor; // 원래대로 복구
+    }
+    else
+    {
         yield return new WaitForSeconds(invincibleDuration);
+    }
 
         isInvincible = false;
         Debug.Log("무적 상태 종료!");
