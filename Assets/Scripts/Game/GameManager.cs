@@ -3,29 +3,68 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance; // [¼ö¾Æ] ½Ì±ÛÅæ
+    public static GameManager Instance; // [ìˆ˜ì•„] ì‹±ê¸€í†¤
 
-    private bool isGameOver = false; // [¼ö¾Æ] °ÔÀÓ¿À¹ö Ã³¸® º¯¼ö
+    // [ìˆ˜ì•„] ì—”ë”© ì¢…ë¥˜ë¥¼ êµ¬ë¶„í•˜ê¸° ìœ„í•œ enum
+    public enum EndingType
+    {
+        None,
+        Late,
+        Clear
+    }
+
+    // [ìˆ˜ì•„] í˜„ì¬ ì—”ë”© ì¢…ë¥˜ë¥¼ ì €ì¥í•˜ëŠ” static ë³€ìˆ˜
+    public static EndingType currentEndingType = EndingType.None;
+
+    private bool isGameOver = false; // [ìˆ˜ì•„] ê²Œì„ì˜¤ë²„ ì²˜ë¦¬ ë³€ìˆ˜
+    private bool isGameClear = false; // [ìˆ˜ì•„] ê²Œì„í´ë¦¬ì–´ ì²˜ë¦¬ ë³€ìˆ˜
 
     private void Awake()
     {
-        // [¼ö¾Æ] GameManager Instance°¡ ¾øÀ¸¸é ÇöÀç ¿ÀºêÁ§Æ®¸¦ Instance·Î ¼³Á¤
+        // [ìˆ˜ì•„] GameManager Instanceê°€ ì—†ìœ¼ë©´ í˜„ì¬ ì˜¤ë¸Œì íŠ¸ë¥¼ Instanceë¡œ ì„¤ì •
         if (Instance == null)
         {
             Instance = this;
         }
         else
         {
-            // [¼ö¾Æ] GameManager Áßº¹ »ı¼º ¹æÁö
+            // [ìˆ˜ì•„] GameManager ì¤‘ë³µ ìƒì„± ë°©ì§€
             Destroy(gameObject);
         }
     }
 
-    // [¼ö¾Æ] °ÔÀÓ ¿À¹ö Ã³¸® ÇÔ¼ö
+    // [ìˆ˜ì•„] ê²Œì„ ì˜¤ë²„ ì²˜ë¦¬ í•¨ìˆ˜
     public void GameOver()
     {
-        if (isGameOver) return; // [¼ö¾Æ] °ÔÀÓ¿À¹ö Áßº¹ ½ÇÇà ¹æÁö
+        if (isGameOver) return; // [ìˆ˜ì•„] ê²Œì„ì˜¤ë²„ ì¤‘ë³µ ì‹¤í–‰ ë°©ì§€
         isGameOver = true;
-        SceneManager.LoadScene("EndScene"); // [¼ö¾Æ] ¿£µù ¾ÀÀ¸·Î ÀÌµ¿
+
+        SaveFinalScore(); // [ìˆ˜ì•„] ì ìˆ˜ ì €ì¥
+        currentEndingType = EndingType.Late; // [ìˆ˜ì•„] ì§€ê° ì—”ë”© ì €ì¥
+        SceneManager.LoadScene("EndScene"); // [ìˆ˜ì•„] ì—”ë”© ì”¬ìœ¼ë¡œ ì´ë™
+    }
+
+    // [ìˆ˜ì•„] ê²Œì„ í´ë¦¬ì–´ ì²˜ë¦¬ í•¨ìˆ˜
+    public void GameClear()
+    {
+        if (isGameClear) return; // [ìˆ˜ì•„] ì¤‘ë³µ ì‹¤í–‰ ë°©ì§€
+        isGameClear = true;
+
+        SaveFinalScore(); // [ìˆ˜ì•„] ì ìˆ˜ ì €ì¥
+        currentEndingType = EndingType.Clear; // [ìˆ˜ì•„] í•™êµ ë„ì°© ì—”ë”© ì €ì¥
+        SceneManager.LoadScene("EndScene"); // [ìˆ˜ì•„] ì—”ë”© ì”¬ìœ¼ë¡œ ì´ë™
+    }
+
+    // [ìˆ˜ì•„] í˜„ì¬ ì ìˆ˜ë¥¼ ìµœì¢… ì ìˆ˜ë¡œ ì €ì¥í•˜ëŠ” í•¨ìˆ˜
+    private void SaveFinalScore()
+    {
+        ScoreManager scoreMgr = FindFirstObjectByType<ScoreManager>();
+        if (scoreMgr != null)
+        {
+            // ScoreManagerì—ì„œ ê³„ì‚° ì¤‘ì¸ ì ìˆ˜ë¥¼ ì •ìˆ˜ë¡œ ë³€í™˜í•˜ì—¬ 'FinalScore'ë¼ëŠ” í‚¤ë¡œ ì €ì¥
+            int finalScore = Mathf.FloorToInt(scoreMgr.GetCurrentScore());
+            PlayerPrefs.SetInt("FinalScore", finalScore);
+            PlayerPrefs.Save(); // ì¦‰ì‹œ ì €ì¥ í™•ì¸
+        }
     }
 }

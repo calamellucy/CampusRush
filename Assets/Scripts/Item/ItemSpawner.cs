@@ -1,52 +1,91 @@
 using UnityEngine;
+using System.Collections;
 
 public class ItemSpawner : MonoBehaviour
 {
-    // [°¡¿µ] ÀÎ½ºÆåÅÍ¿¡¼­ ¾ÆÀÌÅÛ ÇÁ¸®ÆÕ°ú µîÀå ºñÀ²(°¡ÁßÄ¡)À» ¼¼Æ®·Î ¹­¾î °ü¸®ÇÏ±â À§ÇÑ ±¸Á¶Ã¼
+    // [ê°€ì˜] ì¸ìŠ¤í™í„°ì—ì„œ ì•„ì´í…œ í”„ë¦¬íŒ¹ê³¼ ë“±ì¥ ë¹„ìœ¨(ê°€ì¤‘ì¹˜)ì„ ì„¸íŠ¸ë¡œ ë¬¶ì–´ ê´€ë¦¬í•˜ê¸° ìœ„í•œ êµ¬ì¡°ì²´
     [System.Serializable]
     public struct ItemRate
     {
-        public GameObject itemPrefab; // ¾ÆÀÌÅÛ ÇÁ¸®ÆÕ
-        public int spawnRatio;        // µîÀå ºñÀ² °¡ÁßÄ¡ (ex: 50, 30, 20 µî »ó´ëÀû ºñÀ²)
+        public GameObject itemPrefab; // ì•„ì´í…œ í”„ë¦¬íŒ¹
+        public int spawnRatio;        // ë“±ì¥ ë¹„ìœ¨ ê°€ì¤‘ì¹˜ (ex: 50, 30, 20 ë“± ìƒëŒ€ì  ë¹„ìœ¨)
     }
 
     [Header("Item Pool")]
-    public ItemRate[] itemPool; // À§ ±¸Á¶Ã¼ÀÇ ¹è¿­ (¿©·¯ ¾ÆÀÌÅÛ ÇÁ¸®ÆÕ°ú µîÀå ºñÀ²À» ´ãÀ½.)
+    public ItemRate[] itemPool; // ìœ„ êµ¬ì¡°ì²´ì˜ ë°°ì—´ (ì—¬ëŸ¬ ì•„ì´í…œ í”„ë¦¬íŒ¹ê³¼ ë“±ì¥ ë¹„ìœ¨ì„ ë‹´ìŒ.)
 
-    // [¼ö¾Æ] Inspector¿¡¼­ °ª Á¶Á¤ °¡´ÉÇÏµµ·Ï
+    // [ìˆ˜ì•„] Inspectorì—ì„œ ê°’ ì¡°ì • ê°€ëŠ¥í•˜ë„ë¡
     [Header("Spawn Settings")]
-    [SerializeField] private float spawnX; //»ı¼ºÇÒ À§Ä¡ÀÇ x°ª
-    [SerializeField] private float spawnY = 0f; //»ı¼ºÇÒ À§Ä¡ÀÇ y°ª
-    [SerializeField] private float startDelay = 2f; // Ã¹ »ı¼º ´ë±â ½Ã°£
-    [SerializeField] private float repeatRate = 3f; // ¹İº¹ °£°İ 
+    [SerializeField] private float spawnX; //ìƒì„±í•  ìœ„ì¹˜ì˜ xê°’
+    [SerializeField] private float spawnY = 0f; //ëœë¤ìœ¼ë¡œ ì„ íƒí•œ yê°’
+    [SerializeField] private float lowY = -2f; //ì•„ë˜ìª½ ìƒì„± ìœ„ì¹˜
+    [SerializeField] private float middleY = 1f; //ì¤‘ê°„ ìƒì„± ìœ„ì¹˜
+    [SerializeField] private float highY = 3f; //ìœ„ìª½ ìƒì„± ìœ„ì¹˜
+    [SerializeField] private float startDelay = 2f; // ì²« ìƒì„± ëŒ€ê¸° ì‹œê°„
+    [SerializeField] private float minItemInterval = 2.0f; // ìµœì†Œ ìƒì„± ê°„ê²©
+    [SerializeField] private float maxItemInterval = 4.0f; // ìµœëŒ€ ìƒì„± ê°„ê²©
+    [SerializeField] private SpawnTimingManager spawnTimingManager;
 
     void Start()
     {
-        // È­¸é ¿À¸¥ÂÊ ³¡(1,0) ÁÂÇ¥¸¦ ¿ùµå ÁÂÇ¥·Î º¯È¯ (¿©À¯°ª +2f Ãß°¡)
+        // í™”ë©´ ì˜¤ë¥¸ìª½ ë(1,0) ì¢Œí‘œë¥¼ ì›”ë“œ ì¢Œí‘œë¡œ ë³€í™˜ (ì—¬ìœ ê°’ +2f ì¶”ê°€)
         spawnX = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, 0)).x + 2f;
 
-        // startDelayÃÊ ÈÄ¿¡ ½ÃÀÛÇÏ¿© repeatRate¸¶´Ù SpawnItem ÇÔ¼ö ½ÇÇà
-        InvokeRepeating("SpawnItem", startDelay, repeatRate);
+        //ì•„ì´í…œ ìƒì„±í•˜ëŠ” ì½”ë£¨í‹´ ì‹œì‘
+        StartCoroutine(SpawnRoutine(startDelay));
+    }
+
+    // ì•„ì´í…œ ìƒì„±í•˜ëŠ” ë£¨í‹´ì„ ì½”ë£¨í‹´ìœ¼ë¡œ êµ¬í˜„
+    IEnumerator SpawnRoutine(float delay)
+    {
+        // ì²« ì‹œì‘ ëŒ€ê¸°
+        yield return new WaitForSeconds(delay);
+
+        while (true) // ë¬´í•œ ë£¨í”„
+        {
+            // [ìˆ˜ì•„] ìµœê·¼ ì¥ì• ë¬¼ ìƒì„± ì‹œê°„ê³¼ ë„ˆë¬´ ê°€ê¹Œìš°ë©´ ì ì‹œ ëŒ€ê¸°
+            if (spawnTimingManager != null)
+            {
+                float waitTime = spawnTimingManager.GetItemWaitTime();
+
+                if (waitTime > 0f)
+                {
+                    yield return new WaitForSeconds(waitTime);
+                }
+            }
+
+            SpawnItem();
+
+            // [ìˆ˜ì•„] ì•„ì´í…œ ìƒì„± ì‹œê°„ ê¸°ë¡
+            if (spawnTimingManager != null)
+            {
+                spawnTimingManager.RegisterItemSpawn();
+            }
+
+            // [ìˆ˜ì•„] ì•„ì´í…œ ìƒì„± ê°„ê²©ì„ ëœë¤ìœ¼ë¡œ ì •í•¨ 
+            float randomInterval = Random.Range(minItemInterval, maxItemInterval);
+            yield return new WaitForSeconds(randomInterval);
+        }
     }
 
     /// <summary>
-    /// °¢ ¾ÆÀÌÅÛ µîÀå ºñÀ²¿¡ µû¶ó ·£´ıÇÏ°Ô ¾ÆÀÌÅÛÀ» È£ÃâÇÑ´Ù
+    /// ê° ì•„ì´í…œ ë“±ì¥ ë¹„ìœ¨ì— ë”°ë¼ ëœë¤í•˜ê²Œ ì•„ì´í…œì„ í˜¸ì¶œí•œë‹¤
     /// </summary>
     void SpawnItem()
     {
         if (itemPool == null || itemPool.Length == 0) return;
-        // [°¡¿µ]
-        // 1. ÀüÃ¼ °¡ÁßÄ¡(ºñÀ²)ÀÇ ÃÑÇÕÀ» ±¸ÇÔ
+        // [ê°€ì˜]
+        // 1. ì „ì²´ ê°€ì¤‘ì¹˜(ë¹„ìœ¨)ì˜ ì´í•©ì„ êµ¬í•¨
         int totalRatio = 0;
         foreach (ItemRate item in itemPool)
         {
             totalRatio += item.spawnRatio;
         }
 
-        // 2. 0ºÎÅÍ ÃÑÇÕ »çÀÌÀÇ ·£´ı ¼ıÀÚ¸¦ ÇÏ³ª »ÌÀ½
+        // 2. 0ë¶€í„° ì´í•© ì‚¬ì´ì˜ ëœë¤ ìˆ«ìë¥¼ í•˜ë‚˜ ë½‘ìŒ
         int randomValue = UnityEngine.Random.Range(0, totalRatio);
 
-        // 3. °¡ÁßÄ¡ ±â¹İÀ¸·Î ¾î¶² ¾ÆÀÌÅÛ ÇÁ¸®ÆÕÀ» »ÌÀ»Áö °áÁ¤ÇÔ
+        // 3. ê°€ì¤‘ì¹˜ ê¸°ë°˜ìœ¼ë¡œ ì–´ë–¤ ì•„ì´í…œ í”„ë¦¬íŒ¹ì„ ë½‘ì„ì§€ ê²°ì •í•¨
         GameObject selectedItemPrefab = null;
         int currentSum = 0;
 
@@ -54,24 +93,40 @@ public class ItemSpawner : MonoBehaviour
         {
             currentSum += item.spawnRatio;
             /*
-             * <ÇØ´ç ·ÎÁ÷ °£´ÜÇÑ ¼³¸í>
-             *  ¸¸¾à randomValue°¡ 49ÀÌ°í,
-             *  itemÀÇ spawnRatio°¡ 50,30,10 ¼øÀÌ¶ó°í ÇÒ¶§,
-             *  Ã¹¹øÂ° ÅÏ¿¡¼­ currentSumÀÌ 50ÀÌ µÇ¾î¹ö¸®´Ï±î
-             *  ¹Ù·Î Ã¹ itemÀ» selectedItemPrefab¿¡ ³ÖÀ½!
+             * <í•´ë‹¹ ë¡œì§ ê°„ë‹¨í•œ ì„¤ëª…>
+             *  ë§Œì•½ randomValueê°€ 49ì´ê³ ,
+             *  itemì˜ spawnRatioê°€ 50,30,10 ìˆœì´ë¼ê³  í• ë•Œ,
+             *  ì²«ë²ˆì§¸ í„´ì—ì„œ currentSumì´ 50ì´ ë˜ì–´ë²„ë¦¬ë‹ˆê¹Œ
+             *  ë°”ë¡œ ì²« itemì„ selectedItemPrefabì— ë„£ìŒ!
              */
-            if (randomValue < currentSum) 
+            if (randomValue < currentSum)
             {
                 selectedItemPrefab = item.itemPrefab;
                 break;
             }
         }
-        
-        // 4. °è»êµÈ spawnX¿Í °íÁ¤µÈ spawnY·Î À§Ä¡¿¡ ¾ÆÀÌÅÛ ¿ÀºêÁ§Æ® »ı¼ºÇÔ
+
+        // [ìˆ˜ì•„] 4. ê³„ì‚°ëœ spawnXì™€ ëœë¤ìœ¼ë¡œ ì„ íƒëœ spawnYë¡œ ìœ„ì¹˜ì— ì•„ì´í…œ ì˜¤ë¸Œì íŠ¸ ìƒì„±í•¨
         if (selectedItemPrefab != null)
         {
+            // [ìˆ˜ì•„] 3ê°€ì§€ yê°’ ì¤‘ í•œ ê³³ ëœë¤ ì„ íƒ
+            float[] yPositions = { lowY, middleY, highY };
+            spawnY = yPositions[Random.Range(0, yPositions.Length)];
+
             Vector3 spawnPos = new Vector3(spawnX, spawnY, 0);
             Instantiate(selectedItemPrefab, spawnPos, selectedItemPrefab.transform.rotation);
         }
+    }
+
+    // [ìˆ˜ì•„] ì•„ì´í…œ ìƒì„±ì„ ì¤‘ì§€í•˜ëŠ” í•¨ìˆ˜
+    public void StopSpawning()
+    {
+        StopAllCoroutines();
+    }
+
+    // [ìˆ˜ì•„] ì•„ì´í…œ ìƒì„±ì„ ì¬ê°œí•˜ëŠ” í•¨ìˆ˜
+    public void StartSpawning(float delay)
+    {
+        StartCoroutine(SpawnRoutine(delay));
     }
 }

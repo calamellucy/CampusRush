@@ -146,8 +146,11 @@ MonoBehaviour:
   scoreValue: -300
   hpChangeValue: 0
   isEventMultiplierApplied: 0
-  moveSpeed: 5
+  moveSpeed: 6
   deadZone: -15
+  floatingText: {fileID: 8983729154387917766, guid: 5293195e7db09a84eb98b6929768e492, type: 3}
+  itemGetSound: {fileID: 8300000, guid: 305224b6acee8b84383a5000ef185285, type: 3}
+  itemGetSoundVolume: 1.5
 --- !u!1 &8052735425125170211
 GameObject:
   m_ObjectHideFlags: 0

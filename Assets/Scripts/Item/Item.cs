@@ -2,77 +2,129 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    // [°¡¿µ]
+    // [ê°€ì˜]
     [Header("Item Settings")]
-    public string itemName = "Default Item";     // ¾ÆÀÌÅÛ ÀÌ¸§
-    public float scoreValue = 100f;              // [¿¹¸°] ¾ÆÀÌÅÛ È¹µæ ½Ã Áõ°¡ÇÒ Á¡¼ö
-    public int hpChangeValue = 0;                // HP º¯È­·® 
-    public bool isEventMultiplierApplied = false; // ÀÌº¥Æ® ¹èÀ²(ex: 2¹è ÀÌº¥Æ®) Àû¿ë ¿©ºÎ
+    public string itemName = "Default Item";     // ì•„ì´í…œ ì´ë¦„
+    public float scoreValue = 100f;              // [ì˜ˆë¦°] ì•„ì´í…œ íšë“ ì‹œ ì¦ê°€í•  ì ìˆ˜
+    public int hpChangeValue = 0;                // HP ë³€í™”ëŸ‰ 
+    public bool isEventMultiplierApplied = false; // ì´ë²¤íŠ¸ ë°°ìœ¨(ex: 2ë°° ì´ë²¤íŠ¸) ì ìš© ì—¬ë¶€
 
     [Header("Movement")]
-    // [¼ö¾Æ] Obstacle ÄÚµå º¹»ç
-    public float moveSpeed = 5f; // ÀÌµ¿ ¼Óµµ
-    public float deadZone; // »ç¶óÁú ¿ŞÂÊ X ÁÂÇ¥ °æ°è
+    // [ìˆ˜ì•„] Obstacle ì½”ë“œ ë³µì‚¬
+    public float moveSpeed = 5f; // ì´ë™ ì†ë„
+    public float deadZone; // ì‚¬ë¼ì§ˆ ì™¼ìª½ X ì¢Œí‘œ ê²½ê³„
+
+    [Header("UI Floating Text Settings")]
+    public GameObject floatingText;
+    private Transform canvasTransform;
+
+    // [ì˜ˆë¦°] ì•„ì´í…œ íšë“ íš¨ê³¼ìŒ ì„¤ì •
+    [Header("Sound Settings")]
+    [SerializeField] private AudioClip itemGetSound;
+    [SerializeField] private float itemGetSoundVolume = 1.0f; // ì•„ì´í…œ íšë“ íš¨ê³¼ìŒ ë³¼ë¥¨
 
     void Start()
     {
-        // È­¸é ¿ŞÂÊ ³¡(0,0) ÁÂÇ¥¸¦ ¿ùµå ÁÂÇ¥·Î º¯È¯ (¿©À¯°ª -2f Ãß°¡)
+        // í™”ë©´ ì™¼ìª½ ë(0,0) ì¢Œí‘œë¥¼ ì›”ë“œ ì¢Œí‘œë¡œ ë³€í™˜ (ì—¬ìœ ê°’ -2f ì¶”ê°€)
         deadZone = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0)).x - 2f;
+    
+        GameObject FXCanvasObj = GameObject.Find("FloatingTextCanvas");
+
+        if (FXCanvasObj != null)
+        {
+            canvasTransform = FXCanvasObj.transform;
+        }
+        else
+        {
+            Debug.LogError("í•˜ì´ì–´ë¼í‚¤ì— 'FloatingTextCanvas' ë¼ëŠ” ì´ë¦„ì˜ ìº”ë²„ìŠ¤ê°€ ì—†ìŠµë‹ˆë‹¤! ì´ë¦„ì„ í™•ì¸í•´ ì£¼ì„¸ìš”.");
+        }
     }
 
     void Update()
     {
-        // ¸Å ÇÁ·¹ÀÓ¸¶´Ù ¿ŞÂÊ ¹æÇâÀ¸·Î ÀÌµ¿
-        transform.Translate(Vector3.left * moveSpeed * Time.deltaTime);
+        // [ê°€ì˜] ObstacleSpawnerì˜ static ì†ë„ë¥¼ ì°¸ì¡°í•˜ì—¬ ë™ì¼í•˜ê²Œ ì´ë™
+        float speed = moveSpeed + ObstacleSpawner.currentSpeedDiff;
 
-        // ¿ŞÂÊ º®(°æ°è¼±)À» ³Ñ¾î°¡¸é °´Ã¼ »èÁ¦
+        // ë§¤ í”„ë ˆì„ë§ˆë‹¤ ì™¼ìª½ ë°©í–¥ìœ¼ë¡œ ì´ë™
+        transform.Translate(Vector3.left * speed * Time.deltaTime); //fixedDeltaTimeì‚¬ìš©
+
+        // ì™¼ìª½ ë²½(ê²½ê³„ì„ )ì„ ë„˜ì–´ê°€ë©´ ê°ì²´ ì‚­ì œ
         if (transform.position.x < deadZone)
         {
             Destroy(gameObject);
         }
     }
 
-    // [¼ö¾Æ] Player¿Í Ãæµ¹ÇÏ¸é ¾ÆÀÌÅÛÀÌ »ç¶óÁö°í È¹µæ Ã³¸®
+    // [ìˆ˜ì•„] Playerì™€ ì¶©ëŒí•˜ë©´ ì•„ì´í…œì´ ì‚¬ë¼ì§€ê³  íšë“ ì²˜ë¦¬
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // 1. Á¡¼ö Ã³¸®
+        // 1. ì ìˆ˜ ì²˜ë¦¬
         if (other.CompareTag("Player"))
         {
-            // [¿¹¸°] Á¡¼ö º¯È­°¡ ÀÖ´Â ¾ÆÀÌÅÛÀÏ °æ¿ì ScoreManager¿Í ¿¬µ¿
+            // [ì˜ˆë¦°] ì ìˆ˜ ë³€í™”ê°€ ìˆëŠ” ì•„ì´í…œì¼ ê²½ìš° ScoreManagerì™€ ì—°ë™
             if (scoreValue != 0)
             {
                 ScoreManager scoreMgr = FindFirstObjectByType<ScoreManager>();
 
+                float finalCalculatedScore = scoreValue;
+
                 if (scoreMgr != null)
                 {
-                    scoreMgr.AddScore(scoreValue);
+                    finalCalculatedScore = scoreMgr.AddScore(scoreValue);
                 }
                 else
                 {
-                    Debug.LogWarning("¾À¿¡¼­ ScoreManager¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù!");
+                    Debug.LogWarning("ì”¬ì—ì„œ ScoreManagerë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤!");
                 }
+
+                SpawnFloatingText(finalCalculatedScore);
             }
 
-            // 2. [°¡¿µ] ¶óÀÌÇÁ(HP) Ã³¸® (PlayerCollisionHandler ¿¬µ¿)
-            // [¿¹¸°] Ã¼·Â º¯È­°¡ ÀÖ´Â ¾ÆÀÌÅÛÀÏ °æ¿ì PlayerCollisionHandler¿Í ¿¬µ¿
+            // 2. [ê°€ì˜] ë¼ì´í”„(HP) ì²˜ë¦¬ (PlayerCollisionHandler ì—°ë™)
+            // [ì˜ˆë¦°] ì²´ë ¥ ë³€í™”ê°€ ìˆëŠ” ì•„ì´í…œì¼ ê²½ìš° PlayerCollisionHandlerì™€ ì—°ë™
             if (hpChangeValue != 0)
             {
-                // Ãæµ¹ÇÑ ÇÃ·¹ÀÌ¾î ¿ÀºêÁ§Æ®³ª ±× ÀÚ½Ä/ºÎ¸ğ¿¡°Ô¼­ ÇØ´ç ½ºÅ©¸³Æ®¸¦ Ã£À½
+                // ì¶©ëŒí•œ í”Œë ˆì´ì–´ ì˜¤ë¸Œì íŠ¸ë‚˜ ê·¸ ìì‹/ë¶€ëª¨ì—ê²Œì„œ í•´ë‹¹ ìŠ¤í¬ë¦½íŠ¸ë¥¼ ì°¾ìŒ
                 PlayerCollisionHandler playerHealth = other.GetComponent<PlayerCollisionHandler>();
 
                 if (playerHealth != null)
                 {
-                    //¿¹½Ã) ¸¸¾à Ä¿ÇÇ¶ó¸é ÇÏÆ®(Ã¼·Â)°¡ -1µÊ. ¸¸¾à Ã¼·ÂÅ°¿ì´Â ¾ÆÀÌÅÛ(ex.ÇÏÆ®) ¸ÔÀ¸¸é ÇÏÆ®°¡ +1µÈ´Ù.
+                    //ì˜ˆì‹œ) ë§Œì•½ ì»¤í”¼ë¼ë©´ í•˜íŠ¸(ì²´ë ¥)ê°€ -1ë¨. ë§Œì•½ ì²´ë ¥í‚¤ìš°ëŠ” ì•„ì´í…œ(ex.í•˜íŠ¸) ë¨¹ìœ¼ë©´ í•˜íŠ¸ê°€ +1ëœë‹¤.
                     playerHealth.ChangeLife(hpChangeValue);
                 }
                 else
                 {
-                    Debug.LogWarning("Player¿¡°Ô¼­ PlayerCollisionHandler ÄÄÆ÷³ÍÆ®¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù!");
+                    Debug.LogWarning("Playerì—ê²Œì„œ PlayerCollisionHandler ì»´í¬ë„ŒíŠ¸ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤!");
                 }
             }
 
-            // 3. [¼ö¾Æ] ¾ÆÀÌÅÛ ¿ÀºêÁ§Æ® ÆÄ±«
+            // [ì˜ˆë¦°] ì•„ì´í…œ íšë“ íš¨ê³¼ìŒ ì¬ìƒ
+            if (itemGetSound != null)
+            {
+                Vector3 soundPosition = Camera.main != null ? Camera.main.transform.position : transform.position;
+                AudioSource.PlayClipAtPoint(itemGetSound, soundPosition, itemGetSoundVolume);
+            }
+
+            // 3. [ìˆ˜ì•„] ì•„ì´í…œ ì˜¤ë¸Œì íŠ¸ íŒŒê´´
             Destroy(gameObject);
+        }
+    }
+
+    // [ì±„ì›] ì•„ì´í…œì˜ í˜„ì¬ ì›”ë“œ ìœ„ì¹˜ë¥¼ ê¸°ë°˜ìœ¼ë¡œ UI í…ìŠ¤íŠ¸ë¥¼ ìƒì„±í•˜ëŠ” í•¨ìˆ˜
+    void SpawnFloatingText(float finalScore)
+    {
+        if (floatingText != null && canvasTransform != null)
+        {
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+            screenPos.x += 50f; 
+
+            GameObject textObj = Instantiate(floatingText, screenPos, Quaternion.identity, canvasTransform);
+            
+            FloatingText floatingTextScript = textObj.GetComponent<FloatingText>();
+            if (floatingTextScript != null)
+            {
+                floatingTextScript.SetScoreText((int)finalScore);
+            }
         }
     }
 }

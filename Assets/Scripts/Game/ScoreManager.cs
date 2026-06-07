@@ -2,118 +2,120 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    // [¿¹¸°] Á¡¼ö °è»ê ·ÎÁ÷ ±¸Çö ¹× UIManager ¿¬°á
+    // [ì˜ˆë¦°] í˜„ì¬ ì ìˆ˜ ì—°ë™ ë° UIManager ì—°ê²°
     public UIManager uiManager;
-    public float baseScorePerSecond = 10f; // [¼ö¾Æ] ±âº» ÃÊ´ç Áõ°¡ Á¡¼ö
-    public float currentScorePerSecond = 10f; // [¼ö¾Æ] ÇöÀç ÃÊ´ç Áõ°¡ Á¡¼ö
+    public float baseScorePerSecond = 10f;    // [ì˜ˆë¦°] ê¸°ë³¸ ì´ˆë‹¹ ì ìˆ˜ ì¦ê°€ëŸ‰
+    public float currentScorePerSecond = 10f; // [ì˜ˆë¦°] í˜„ì¬ ì´ˆë‹¹ ì ìˆ˜ ì¦ê°€ëŸ‰
     private float currentScore = 0f;
 
-    private float ItemScoreMultiplier = 1f; // [¼ö¾Æ] ÀÌº¥Æ®¿¡ ÀÇÇÑ Á¡¼ö ¹èÀ²
-    private bool isProfessorEffect = false; // [¼ö¾Æ] ±³¼ö´Ô È¿°ú Ã¼Å© º¯¼ö
-    private bool isRomanceEffect = false; // [¼ö¾Æ] ¿¬¾Ö È¿°ú Ã¼Å© º¯¼ö
-    private bool isCultEffect = false; // [¼ö¾Æ] »çÀÌºñ È¿°ú Ã¼Å© º¯¼ö
+    private float ItemScoreMultiplier = 1f;   // [ìˆ˜ì•„] ì´ë²¤íŠ¸ë¡œ ì¸í•œ ì ìˆ˜ ë°°ìœ¨
+    private bool isProfessorEffect = false;   // [ìˆ˜ì•„] êµìˆ˜ë‹˜ íš¨ê³¼ ì²´í¬ ë³€ìˆ˜
+    private bool isRomanceEffect = false;     // [ìˆ˜ì•„] ë¡œë§¨ìŠ¤ íš¨ê³¼ ì²´í¬ ë³€ìˆ˜
+    private bool isGangEffect = false;        // [ìˆ˜ì•„] ê¹¡íŒ¨ íš¨ê³¼ ì²´í¬ ë³€ìˆ˜
 
     void Update()
     {
-        // ½Ã°£ÀÌ Áö³²¿¡ µû¶ó Á¡¼ö Áõ°¡
+        // ì‹œê°„ì´ íë¦„ì— ë”°ë¼ ì§€ì†ì ìœ¼ë¡œ ì ìˆ˜ ì¦ê°€
         currentScore += Time.deltaTime * currentScorePerSecond;
 
-        // UIManager¸¦ ÅëÇØ È­¸é¿¡ Ç¥½Ã
+        // UIManagerë¥¼ í†µí•´ í™”ë©´ì— í‘œì‹œ
         if (uiManager != null)
         {
             uiManager.UpdateScoreDisplay(Mathf.FloorToInt(currentScore));
         }
     }
-    public float GetCurrentScore()  // ÇÃ·¹ÀÌ¾î Ãæµ¹ ½Ã ÀÌ ÇÔ¼ö¸¦ È£ÃâÇÏ¿© Á¡¼ö¸¦ ÀúÀå
-    {
-        return currentScore;    // ÇöÀç±îÁö °è»êµÈ ½Ç½Ã°£ Á¡¼ö¸¦ ¹İÈ¯
-    }
-    public void AddScore(float amount)
-    {
-        // [¿¹¸°] ¾ÆÀÌÅÛÀ» È¹µæÇßÀ» ¶§ ¿ÜºÎ(Item.cs)¿¡¼­ Á¡¼ö¸¦ Áï½Ã ´õÇØÁÙ °ø¿ë ÇÔ¼ö Ãß°¡
-        // ÇöÀç Á¡¼ö¿¡ ¾ÆÀÌÅÛ Á¡¼ö(amount)¸¦ ´õÇÏ±â
 
-        // [¼ö¾Æ] ¸¶ÀÌ³Ê½º Á¡¼ö °è»ê if¹®
+    public float GetCurrentScore()  // í”Œë ˆì´ì–´ ì¶©ëŒ ì‹œ ë“± ì´ í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•˜ì—¬ í˜„ì¬ ì ìˆ˜ë¥¼ ê°€ì ¸ì˜´
+    {
+        return currentScore;    // ì†Œìˆ˜ì ì´ í¬í•¨ëœ ì‹¤ì‹œê°„ ì ìˆ˜ë¥¼ ë°˜í™˜
+    }
+
+    public float AddScore(float amount)
+    {
+        // [ì˜ˆë¦°] ì•„ì´í…œì„ íšë“í–ˆì„ ë•Œ ì™¸ë¶€(Item.cs)ì—ì„œ í˜¸ì¶œí•˜ì—¬ ì ìˆ˜ë¥¼ ë°˜ì˜í•˜ëŠ” í•¨ìˆ˜ ì¶”ê°€
+        // ì›ë˜ íšë“í•´ì•¼ í•˜ëŠ” ì ìˆ˜(amount)ì— ë°°ìœ¨ ê³„ì‚°í•˜ê¸°
+
+        // [ìˆ˜ì•„] ë§ˆì´ë„ˆìŠ¤ ì ìˆ˜ ì²˜ë¦¬ ifë¬¸
         if (amount < 0)
         {
-            if (isProfessorEffect) // [¼ö¾Æ] ±³¼ö´Ô È¿°úÀÏ ¶§´Â ¸¶ÀÌ³Ê½º°¡ 0Á¡
+            if (isProfessorEffect) // [ìˆ˜ì•„] êµìˆ˜ë‹˜ íš¨ê³¼ëŠ” ë§ˆì´ë„ˆìŠ¤ ì ìˆ˜ê°€ 0ì´ ë¨
             {
                 amount = 0;
             }
-            else if (isRomanceEffect) // [¼ö¾Æ] ¿¬¾Ö È¿°úÀÏ ¶§´Â ¸¶ÀÌ³Ê½º°¡ 2¹è
+            else if (isRomanceEffect) // [ìˆ˜ì•„] ë¡œë§¨ìŠ¤ íš¨ê³¼ëŠ” ë§ˆì´ë„ˆìŠ¤ë„ 2ë°°ê°€ ë¨
             {
                 amount *= ItemScoreMultiplier;
             }
-            else if (isCultEffect)
+            else if (isGangEffect)
             {
-                // [¼ö¾Æ] »çÀÌºñ È¿°úÀÏ ¶§´Â ¸¶ÀÌ³Ê½º°¡ ±×´ë·Î µé¾î°¨
+                // [ìˆ˜ì•„] ê¹¡íŒ¨ íš¨ê³¼ëŠ” ë§ˆì´ë„ˆìŠ¤ê°€ ê·¸ëŒ€ë¡œ ë“¤ì–´ê°
             }
         }
-        else // [¼ö¾Æ] ¸¶ÀÌ³Ê½º Á¡¼ö ¾Æ´Ò ¶§´Â °¢°¢ÀÇ ÀÌº¥Æ® È¿°ú ¹èÀ²À» Àû¿ë½ÃÅ´
+        else // [ìˆ˜ì•„] ë§ˆì´ë„ˆìŠ¤ ì ìˆ˜ê°€ ì•„ë‹Œ ì •ìƒ ì ìˆ˜ëŠ” ì´ë²¤íŠ¸ íš¨ê³¼(ë°°ìœ¨)ë¥¼ ê³±í•´ì¤Œ
         {
             amount *= ItemScoreMultiplier;
         }
-     
+
         currentScore += amount;
 
-        // È­¸é UI »õ·Î°íÄ§
+        // í™”ë©´ UI ìƒˆë¡œê³ ì¹¨
         if (UIManager.Instance != null)
         {
             UIManager.Instance.UpdateScoreDisplay(Mathf.FloorToInt(currentScore));
         }
+
+        return amount;
     }
 
-    // [¼ö¾Æ] ÀÌº¥Æ® È¿°ú ¸®¼Â ÇÔ¼ö
+    // [ìˆ˜ì•„] ì´ë²¤íŠ¸ íš¨ê³¼ ë¦¬ì…‹ í•¨ìˆ˜
     public void ResetScoreEffect()
     {
         SetItemScoreMultiplier(1f);
         SetScorePerSecond(1f);
         isProfessorEffect = false;
         isRomanceEffect = false;
-        isCultEffect = false;
+        isGangEffect = false;
     }
 
-    // [¼ö¾Æ] ÀÌº¥Æ® È¿°ú Àû¿ë ÇÔ¼öµé
-    public void ApplyProfessorEffect() // ±³¼ö´Ô È¿°ú
+    // [ìˆ˜ì•„] ì´ë²¤íŠ¸ íš¨ê³¼ ì ìš© í•¨ìˆ˜ë“¤
+    public void ApplyProfessorEffect() // êµìˆ˜ë‹˜ íš¨ê³¼
     {
         ResetScoreEffect();
         isProfessorEffect = true;
         SetItemScoreMultiplier(2f);
         SetScorePerSecond(2f);
-        Debug.Log("±³¼ö´Ô È¿°ú Àû¿ë");
-        // [¼ö¾Æ] ¾ÆÀÌÅÛ È¿°ú 2¹è (¸¶ÀÌ³Ê½º Á¦¿Ü), ÃÊ´ç Á¡¼ö 2¹è
+        Debug.Log("êµìˆ˜ë‹˜ íš¨ê³¼ ë°œë™");
+        // [ìˆ˜ì•„] ì•„ì´í…œ íš¨ê³¼ 2ë°° (ë§ˆì´ë„ˆìŠ¤ ì œì™¸), ì´ˆë‹¹ ì ìˆ˜ 2ë°°
     }
 
-    public void ApplyRomanceEffect() // ¿¬¾Ö È¿°ú
+    public void ApplyRomanceEffect() // ë¡œë§¨ìŠ¤ íš¨ê³¼
     {
         ResetScoreEffect();
         isRomanceEffect = true;
         SetItemScoreMultiplier(2f);
-        Debug.Log("¿¬¾Ö È¿°ú Àû¿ë");
-        // [¼ö¾Æ] ¾ÆÀÌÅÛ È¿°ú 2¹è, ÃÊ´ç Á¡¼ö º¯°æ ¾øÀ½
+        Debug.Log("ë¡œë§¨ìŠ¤ íš¨ê³¼ ë°œë™");
+        // [ìˆ˜ì•„] ì•„ì´í…œ íš¨ê³¼ 2ë°°, ì´ˆë‹¹ ì ìˆ˜ëŠ” ê¸°ë³¸ ìœ ì§€
     }
 
-    public void ApplyCultEffect() // »çÀÌºñ È¿°ú
+    public void ApplyGangEffect() // ê¹¡íŒ¨ íš¨ê³¼
     {
         ResetScoreEffect();
-        isCultEffect = true;
+        isGangEffect = true;
         SetItemScoreMultiplier(0.5f);
         SetScorePerSecond(0.5f);
-        Debug.Log("»çÀÌºñ È¿°ú Àû¿ë");
-        // [¼ö¾Æ] ¾ÆÀÌÅÛ È¿°ú 0.5¹è (¸¶ÀÌ³Ê½º Á¦¿Ü), ÃÊ´ç Á¡¼ö 0.5¹è
+        Debug.Log("ê¹¡íŒ¨ íš¨ê³¼ ë°œë™");
+        // [ìˆ˜ì•„] ì•„ì´í…œ íš¨ê³¼ 0.5ë°° (ë§ˆì´ë„ˆìŠ¤ í¬í•¨), ì´ˆë‹¹ ì ìˆ˜ 0.5ë°°
     }
 
-    // [¼ö¾Æ] ÀÌº¥Æ® Á¡¼ö ¹èÀ² º¯°æ ÇÔ¼ö
+    // [ìˆ˜ì•„] ì´ë²¤íŠ¸ ì ìˆ˜ ë°°ìœ¨ ì„¤ì • í•¨ìˆ˜
     private void SetItemScoreMultiplier(float value)
     {
         ItemScoreMultiplier = value;
     }
 
-    // [¼ö¾Æ] ÃÊ´ç Áõ°¡ÇÏ´Â Á¡¼ö °ª º¯°æ ÇÔ¼ö
+    // [ìˆ˜ì•„] ì´ˆë‹¹ ì¦ê°€í•˜ëŠ” ì ìˆ˜ ë°°ìœ¨ ì„¤ì • í•¨ìˆ˜
     private void SetScorePerSecond(float value)
     {
         currentScorePerSecond = value * baseScorePerSecond;
     }
-
-    
 }

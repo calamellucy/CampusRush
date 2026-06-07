@@ -1,14 +1,14 @@
 using UnityEngine;
-using TMPro; // Á¡¼ö °¡µ¶¼ºÀ» À§ÇØ TMPro »ç¿ë
+using TMPro; // ì ìˆ˜ ê°€ë…ì„±ì„ ìœ„í•´ TMPro ì‚¬ìš©
 
 public class EndScoreUI : MonoBehaviour
 {
-    // [¿¹¸°] EndScene Á¡¼ö Ç¥½Ã ±â´É ±¸Çö
+    // [ì˜ˆë¦°] EndScene ì ìˆ˜ í‘œì‹œ ê¸°ëŠ¥ êµ¬í˜„
     public TextMeshProUGUI finalScoreText;
 
     void Start()
     {
-        // PlayerPrefs¿¡¼­ ÀúÀåµÈ Á¡¼ö ºÒ·¯¿À±â
+        // PlayerPrefsì—ì„œ ì €ì¥ëœ ì ìˆ˜ ë¶ˆëŸ¬ì˜¤ê¸°
         int score = PlayerPrefs.GetInt("FinalScore", 0);
 
         if (finalScoreText != null)
@@ -17,7 +17,7 @@ public class EndScoreUI : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("FinalScoreText°¡ ¿¬°áµÇÁö ¾Ê¾Ò½À´Ï´Ù!");
+            Debug.LogWarning("FinalScoreTextê°€ ì—°ê²°ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤!");
         }
     }
 }

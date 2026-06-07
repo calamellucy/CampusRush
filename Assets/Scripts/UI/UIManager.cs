@@ -1,15 +1,14 @@
 using UnityEngine;
-using TMPro; // TextMeshPro ��� �� �ʿ�
-using System.Collections.Generic; // 동적 라이프 관리를 위한 List 네임스페이스 추가
+using TMPro;
+using System.Collections.Generic;
 
 public class UIManager : MonoBehaviour
 {
     // [채원] 플레이어가 접근할 수 있도록 싱글톤 인스턴스 추가
     public static UIManager Instance { get; private set; }
-
+ 
     [Header("Score UI Settings")]
-    // [����] ���� UI ������Ʈ�� ���� ������ �Լ� �߰�
-    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI scoreText; // [예린] 점수 표시용 텍스트
 
     [Header("Dynamic Life UI Settings")]
     public GameObject heartPrefab;    // 생성할 하트 프리팹 원본

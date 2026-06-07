@@ -1,25 +1,25 @@
 using UnityEngine;
 
-//{±¸°¡¿µ}
+//[êµ¬ê°€ì˜] ë°°ê²½ì´ í˜ëŸ¬ê°€ëŠ” íš¨ê³¼ êµ¬í˜„
 public class BackgroundScroll : MonoBehaviour
 {
-    // ¹è°æÀÌ Èê·¯°¡´Â ¼Óµµ
+    // ë°°ê²½ì´ í˜ëŸ¬ê°€ëŠ” ì†ë„
     public float scrollSpeed = 0.2f;
 
     private MeshRenderer meshRenderer;
 
     void Start()
     {
-        // QuadÀÇ MeshRenderer ÄÄÆ÷³ÍÆ®
+        // Quadì˜ MeshRenderer ì»´í¬ë„ŒíŠ¸
         meshRenderer = GetComponent<MeshRenderer>();
     }
 
     void Update()
     {
-        // ½Ã°£¿¡ µû¶ó XÃà ¿ÀÇÁ¼Â °ªÀ» Áõ°¡
+        // ì‹œê°„ì— ë”°ë¼ Xì¶• ì˜¤í”„ì…‹ ê°’ì„ ì¦ê°€
         float offset = Time.time * scrollSpeed;
 
-        // ¸ÓÆ¼¸®¾óÀÇ ¸ŞÀÎ ÅØ½ºÃ³ ¿ÀÇÁ¼ÂÀ» º¯°æÇÏ¿© ¹è°æÀ» ¿òÁ÷ÀÓ
+        // ë¨¸í‹°ë¦¬ì–¼ì˜ ë©”ì¸ í…ìŠ¤ì²˜ ì˜¤í”„ì…‹ì„ ë³€ê²½í•˜ì—¬ ë°°ê²½ì„ ì›€ì§ì„
         meshRenderer.material.mainTextureOffset = new Vector2(offset, 0);
     }
 }
