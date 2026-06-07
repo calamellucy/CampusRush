@@ -18,6 +18,15 @@ public class PlayerController : MonoBehaviour
     [Header("Crouch Settings")]
     [SerializeField] private float crouchSizeMultiplier = 0.5f;
 
+    // [예린] 효과음 관련 값 설정
+    [Header("Sound Settings")]
+    [SerializeField] private AudioClip jumpSound; // 점프 효과음
+    [SerializeField] private AudioClip crouchSound; // 숙이기 효과음
+    [SerializeField] private float jumpSoundVolume = 1f;
+    [SerializeField] private float crouchSoundVolume = 0.5f; // 숙이기 효과음 볼륨
+    private AudioSource audioSource;              // 효과음 재생용 AudioSource
+    
+
     // [채원] 내부 컴포넌트 및 상태 변수
     private Rigidbody2D rb;
     private BoxCollider2D playerCollider;
@@ -37,6 +46,9 @@ public class PlayerController : MonoBehaviour
         
         // [채원] Animator 컴포넌트 가져오기
         animator = GetComponent<Animator>();
+
+        // [예린] AudioSource 컴포넌트 가져오기
+        audioSource = GetComponent<AudioSource>();
 
         // [채원] 초기 콜라이더 값 저장 (나중에 복구용)
         originalColliderSize = playerCollider.size;
@@ -126,6 +138,12 @@ public class PlayerController : MonoBehaviour
         // [채원] 기존 낙하 속도를 무시하고 즉시 jumpForce 부여
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         currentJumpCount++;
+
+        // [예린] 점프 효과음 재생
+        if (audioSource != null && jumpSound != null)
+        {
+            audioSource.PlayOneShot(jumpSound, jumpSoundVolume);
+        }
     }
 
     // [채원] 숙이기 입력 처리
@@ -139,6 +157,12 @@ public class PlayerController : MonoBehaviour
     {
         // [채원] 숙이기 애니메이션 활성화 (Player_Crouch로 전환)
         animator.SetBool("IsCrouching", true);
+
+        // [예린] 숙이기 버튼을 처음 눌렀을 때만 효과음 재생
+        if (audioSource != null && crouchSound != null)
+        {
+            audioSource.PlayOneShot(crouchSound, crouchSoundVolume);
+        }
 
         // [채원] 높이는 줄이고, 아래쪽으로 오프셋을 이동시켜 발 위치 고정
         float newHeight = originalColliderSize.y * crouchSizeMultiplier;

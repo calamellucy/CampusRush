@@ -11,6 +11,18 @@ public class PlayerCollisionHandler : MonoBehaviour
     public float invincibleDuration = 3f;   // 무적 시간
     private bool isInvincible = false;      // 현재 무적 상태인지 여부
 
+    // [예린] 장애물 충돌 효과음 설정
+    [Header("Sound Settings")]
+    [SerializeField] private AudioClip hitSound;      // 장애물 충돌 효과음
+    [SerializeField] private float hitSoundVolume = 1f; // 장애물 충돌 효과음 볼륨
+    private AudioSource audioSource;                  // 효과음 재생용 AudioSource
+
+    private void Awake()
+    {
+        // [예린] Player에 붙어 있는 AudioSource 컴포넌트 가져오기
+        audioSource = GetComponent<AudioSource>();
+    }
+
     // [채원] 게임 시작 시 현재 라이프 수만큼 하트 UI 업데이트
     private void Start()
     {
@@ -34,6 +46,12 @@ public class PlayerCollisionHandler : MonoBehaviour
     // [채원] 장애물 충돌 처리 로직
     private void HandleObstacleCollision(GameObject obstacle) {
         if (isInvincible) return; // 무적 상태에서는 충돌 무시
+
+        // [예린] 실제로 라이프가 감소하는 충돌일 때만 효과음 재생
+        if (audioSource != null && hitSound != null)
+        {
+            audioSource.PlayOneShot(hitSound, hitSoundVolume);
+        }
 
         ChangeLife(-1); // 장애물 충돌 시 라이프 감소
         Debug.Log("Life : " + lives);   // 현재 라이프 수 디버그 로그
