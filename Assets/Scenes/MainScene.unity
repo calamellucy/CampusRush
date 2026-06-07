@@ -2585,6 +2585,10 @@ PrefabInstance:
       value: Background_sky
       objectReference: {fileID: 0}
     - target: {fileID: 6603193129429969358, guid: c88204ad1274e2540ad05f8007298fe7, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6603193129429969358, guid: c88204ad1274e2540ad05f8007298fe7, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.0588
       objectReference: {fileID: 0}
