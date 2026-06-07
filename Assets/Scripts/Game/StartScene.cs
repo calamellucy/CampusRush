@@ -3,16 +3,16 @@ using UnityEngine.SceneManagement;
 
 public class StartScene : MonoBehaviour
 {
-    // [¼ö¾Æ]
+    // [ìˆ˜ì•„]
     public void OnClickStart()
     {
         SceneManager.LoadScene("MainScene");
-        // Start ¹öÆ° Å¬¸¯ ½Ã MainSceneÀ¸·Î ÀÌµ¿
+        // Start ë²„íŠ¼ í´ë¦­ ì‹œ MainSceneìœ¼ë¡œ ì´ë™
     }
 
     public void OnClickExit()
     {
         Application.Quit();
-        // Exit ¹öÆ° Å¬¸¯ ½Ã °ÔÀÓ Á¾·á
+        // Exit ë²„íŠ¼ í´ë¦­ ì‹œ ê²Œì„ ì¢…ë£Œ
     }
 }
