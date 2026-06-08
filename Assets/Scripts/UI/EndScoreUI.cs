@@ -17,7 +17,7 @@ public class EndScoreUI : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("FinalScoreText가 연결되지 않았습니다!");
+            Debug.LogWarning("FinalScoreText 없음");
         }
     }
 }

@@ -11,8 +11,6 @@ public class NPCController : MonoBehaviour
     public void Init(NPCEventManager manager)
     {
         eventManager = manager;
-        // [가영] 생성 시점의 현재 속도를 가져옴 (도로/장애물과 동일한 속도)
-        // moveSpeed = ObstacleSpawner.currentSpeed;
 
     }
 
@@ -25,7 +23,6 @@ public class NPCController : MonoBehaviour
     {
         // [가영] ObstacleSpawner의 static 속도를 참조하여 동일하게 이동
         float speed = moveSpeed + ObstacleSpawner.currentSpeedDiff;
-        // moveSpeed = ObstacleSpawner.currentSpeed;
 
         // [채원] 왼쪽 방향으로 천천히 이동      //[가영] 장애물과 동일한 공용 속도로 이동
         transform.Translate(Vector2.left * speed * Time.deltaTime);
