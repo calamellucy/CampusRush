@@ -3,6 +3,7 @@
 ### 프로젝트 설명
 
 지각 위기에 처한 대학생이 지각하지 않기 위해 달리는 러너 게임.
+
 Unity 2D 기반 팀프로젝트.
 
 ---
@@ -79,14 +80,17 @@ Unity 2D 기반 팀프로젝트.
 
 ### 필요한 소프트웨어 및 하드웨어 요구 사항
 
+#### 실행 환경
+
+- 키보드와 마우스 입력 가능 환경
+- Windows
+
+#### 개발 환경
+
 - Unity Editor: Unity 6000.3.15f1
 - Git
-- GitHub Desktop
+- GitHub Desktop, SourceTree
 - Windows 또는 macOS
-
-- Unity 2D 프로젝트 실행이 가능한 PC
-- 최소 4GB RAM 이상 권장
-- 마우스와 키보드 입력 가능 환경
 
 ---
 
