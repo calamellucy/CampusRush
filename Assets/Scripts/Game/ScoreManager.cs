@@ -84,7 +84,6 @@ public class ScoreManager : MonoBehaviour
         isProfessorEffect = true;
         SetItemScoreMultiplier(2f);
         SetScorePerSecond(2f);
-        Debug.Log("교수님 효과 발동");
         // [수아] 아이템 효과 2배 (마이너스 제외), 초당 점수 2배
     }
 
@@ -93,7 +92,6 @@ public class ScoreManager : MonoBehaviour
         ResetScoreEffect();
         isRomanceEffect = true;
         SetItemScoreMultiplier(2f);
-        Debug.Log("로맨스 효과 발동");
         // [수아] 아이템 효과 2배, 초당 점수는 기본 유지
     }
 
@@ -103,7 +101,6 @@ public class ScoreManager : MonoBehaviour
         isGangEffect = true;
         SetItemScoreMultiplier(0.5f);
         SetScorePerSecond(0.5f);
-        Debug.Log("깡패 효과 발동");
         // [수아] 아이템 효과 0.5배 (마이너스 포함), 초당 점수 0.5배
     }
 

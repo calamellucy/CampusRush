@@ -83,7 +83,6 @@ public class ObstacleSpawner : MonoBehaviour
             {
                 currentSpeedDiff = maxSpeedIncreaseRate;
             }
-            Debug.Log($"<color=yellow>[System]</color> 현재 난이도 - 속도: {currentSpeedDiff:F2}");
 
             // [수아] 게임 시작 후 흐른 시간 계산
             float elapsedTime = Time.time - gameStartTime;

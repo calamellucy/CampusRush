@@ -36,7 +36,7 @@ public class PlayerCollisionHandler : MonoBehaviour
         else
         {
             // 하위에도 없는 경우를 대비한 예외 처리
-            Debug.LogError("Player 오브젝트 또는 하위 자식 오브젝트에 SpriteRenderer 컴포넌트가 없습니다!");
+            Debug.LogError("Player 오브젝트에 SpriteRenderer 컴포넌트 없음");
         }
         // [예린] Player에 붙어 있는 AudioSource 컴포넌트 가져오기
         audioSource = GetComponent<AudioSource>();
@@ -73,7 +73,6 @@ public class PlayerCollisionHandler : MonoBehaviour
         }
 
         ChangeLife(-1); // 장애물 충돌 시 라이프 감소
-        Debug.Log("Life : " + lives);   // 현재 라이프 수 디버그 로그
 
         if (lives > 0)
         {
@@ -92,9 +91,6 @@ public class PlayerCollisionHandler : MonoBehaviour
         }
 
         if (lives <= 0) {
-
-            Debug.Log("Obstacle 충돌");
-
             // 게임 오버
             GameManager.Instance.GameOver();
         }
@@ -104,7 +100,6 @@ public class PlayerCollisionHandler : MonoBehaviour
     private IEnumerator BecomeInvincibleCoroutine()
     {
         isInvincible = true;
-        Debug.Log("무적 상태 시작!");
 
         if (playerSprite != null)
     {
@@ -131,6 +126,5 @@ public class PlayerCollisionHandler : MonoBehaviour
     }
 
         isInvincible = false;
-        Debug.Log("무적 상태 종료!");
     }
 }

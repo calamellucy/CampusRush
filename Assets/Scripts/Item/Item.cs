@@ -36,7 +36,7 @@ public class Item : MonoBehaviour
         }
         else
         {
-            Debug.LogError("하이어라키에 'FloatingTextCanvas' 라는 이름의 캔버스가 없습니다! 이름을 확인해 주세요.");
+            Debug.LogError("오류 발생");
         }
     }
 
@@ -74,7 +74,7 @@ public class Item : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogWarning("씬에서 ScoreManager를 찾을 수 없습니다!");
+                    Debug.LogWarning("씬에 ScoreManager 없음");
                 }
 
                 SpawnFloatingText(finalCalculatedScore);
@@ -94,7 +94,7 @@ public class Item : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogWarning("Player에게서 PlayerCollisionHandler 컴포넌트를 찾을 수 없습니다!");
+                    Debug.LogWarning("Player에 PlayerCollisionHandler가 존재하지 않음");
                 }
             }
 

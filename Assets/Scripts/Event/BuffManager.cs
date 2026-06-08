@@ -41,7 +41,7 @@ public class BuffManager : MonoBehaviour
 
             if (buffAnimator == null)
             {
-                Debug.LogError($"{buffVisualObject.name} 오브젝트에 Animator 컴포넌트가 없습니다! 확인해 주세요.");
+                Debug.LogError($"Animator 컴포넌트가 없음");
             }
         }
         // [채원] 시작할 때는 모든 버프 UI 숨기기
@@ -77,21 +77,18 @@ public class BuffManager : MonoBehaviour
                 if (buffAnimator != null) buffAnimator.Play("Buff_professor"); // [채원] 교수님 버프 애니메이션 재생
                 scoreManager.ApplyProfessorEffect(); // [수아] 교수님 효과 적용 함수 호출
                 PlayEventSound(professorSound); // [예린] 교수 이벤트 효과음 재생
-                Debug.Log("교수님 조우! 학점 압박 버프 발동");
                 break;
             case "Romance":
                 romanceBuffUI.SetActive(true);
                 if (buffAnimator != null) buffAnimator.Play("Buff_romance"); // [채원] 연애 버프 애니메이션 재생
                 scoreManager.ApplyRomanceEffect(); // [수아] 연애 효과 적용 함수 호출
                 PlayEventSound(romanceSound); // [예린] 연애 이벤트 효과음 재생
-                Debug.Log("연애 버프 발동! 발걸음이 가볍습니다.");
                 break;
             case "Gang":
                 gangBuffUI.SetActive(true);
                 if (buffAnimator != null) buffAnimator.Play("Buff_gang"); // [채원] 깡패 버프 애니메이션 재생
                 scoreManager.ApplyGangEffect(); // [수아] 깡패 효과 적용 함수 호출
                 PlayEventSound(gangSound); // [예린] 깡패 이벤트 효과음 재생
-                Debug.Log("도를 아십니까? 시간 지체 버프 발동");
                 break;
         }
         // [채원] 2. 처음 7초 동안은 정상 유지
@@ -117,7 +114,6 @@ public class BuffManager : MonoBehaviour
         ClearAllBuffUI();
         StopBuffVisual();
         scoreManager.ResetScoreEffect(); // [수아] 버프 효과 리셋
-        Debug.Log("버프 지속시간이 끝났습니다.");
     }
 
     // [예린] NPC 이벤트 종류에 맞는 효과음 재생
