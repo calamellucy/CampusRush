@@ -158,33 +158,11 @@ git clone 저장소_URL
 
 ---
 
-### 에셋 및 리소스 출처
+### 라이선스
 
-- 게임 내 폰트: <https://github.com/hurss/fonts>
-  - MIT License
+본 프로젝트의 팀 자체 제작 소스 코드는 MIT License를 따른다. 
 
-- 배경/장애물: <https://opengameart.org/content/city-mega-pack>
-  - CC0
-
-- 도로/장애물: <https://elbeshuele.itch.io/topdowncity>
-  - 완전 무료 (Full Free)
-
-- 장애물: <https://nyknck.itch.io/citypackpixelart>
-  - 제작자 표기, 재배포 금지 안내 확인
-
-- 커피 아이템: <https://prohama.com/coffee-pattern-1/>
-  - 라이선스 미표기, 출처 표기
-
-- <https://www.freesound.org/>
-  - 효과음
-
-- 플레이어 참고: <https://www.slynyrd.com/blog/2018/8/19/pixelblog-8-intro-to-animation>
-  - 플레이어 애니메이션 참고 자료
-
-- 엔딩 배경 이미지: <https://namu.wiki/w/%EC%84%B8%EC%A2%85%EB%8C%80%ED%95%99%EA%B5%90/%EC%BA%A0%ED%8D%BC%EC%8A%A4?uuid=eae49763-0c35-43a9-b33a-40483605b631#s-4.1.1>
-  - CC BY-NC-SA 2.0 KR
-
-- 이 외는 직접 제작
+단, 프로젝트에 포함된 이미지, 효과음 등 외부 에셋 및 리소스는 MIT License 적용 대상이 아니며, 각 원저작자의 라이선스와 이용 조건을 따른다. 자세한 출처와 라이선스 정보는 `ASSET_CREDITS.md`를 참고.
 
 ---
 
